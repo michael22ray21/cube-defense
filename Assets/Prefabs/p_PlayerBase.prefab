@@ -232,7 +232,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5604003772742258550}
   m_Layer: 0
-  m_Name: PlayerBase
+  m_Name: p_PlayerBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
