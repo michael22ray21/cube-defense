@@ -27,28 +27,30 @@ public class Tower : MonoBehaviour
     private void FindTarget()
     {
         // Check if current target is still valid
-        if (_currentTarget != null && Vector3.Distance(transform.position, _currentTarget.transform.position) <= _range)
+        if (_currentTarget != null)
         {
-            return; // Keep current target
+            float distance = Vector3.Distance(transform.position, _currentTarget.transform.position);
+            if (distance <= _range)
+            {
+                return; // Keep current target
+            }
         }
 
         // Find new target. This function looks for colliders that is inside the sphere (overlaps sphere)
         _currentTarget = null;
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, _range, _enemyLayer);
+        Monster[] allMonsters = FindObjectsByType<Monster>(FindObjectsSortMode.None);
 
         float closestDistance = Mathf.Infinity;
 
         // then look for the closest Monster from the tower
-        foreach (Collider col in hitColliders)
+        foreach (Monster monster in allMonsters)
         {
-            if (col.TryGetComponent<Monster>(out var monster))
+            float distance = Vector3.Distance(transform.position, monster.transform.position);
+
+            if (distance <= _range && distance < closestDistance)
             {
-                float distance = Vector3.Distance(transform.position, col.transform.position);
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    _currentTarget = monster;
-                }
+                closestDistance = distance;
+                _currentTarget = monster;
             }
         }
     }
@@ -56,6 +58,11 @@ public class Tower : MonoBehaviour
     private void Shoot()
     {
         if (_currentTarget == null) return;
+
+        // this part is supposed to change the direction of the tower is facing
+        // Vector3 direction = (_currentTarget.transform.position - transform.position).normalized;
+        // Debug.Log(direction);
+        // transform.LookAt(transform.position + direction, Vector3.up);
 
         Debug.Log($"Tower shooting at {_currentTarget.name} for {_damage} damage!");
         _currentTarget.TakeDamage(_damage);
