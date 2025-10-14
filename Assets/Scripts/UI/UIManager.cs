@@ -1,19 +1,24 @@
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    [Title("Managers")]
+    [SerializeField] private TDManager _tdManager;
+    [Title("GUI Elements")]
     [SerializeField] private TextMeshProUGUI _waveNumberText;
     [SerializeField] private TextMeshProUGUI _monstersRemainingText;
     [SerializeField] private TextMeshProUGUI _moneyText;
     [SerializeField] private TextMeshProUGUI _playerHealthText;
-    [SerializeField] private TDManager _tdManager;
+    [SerializeField] private GameObject _gameOverUI;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         _tdManager.WaveManager.OnWaveStarted += UpdateWaveUI;
         _tdManager.MoneyManager.OnMoneyChanged += UpdateMoneyUI;
+        _tdManager.PlayerBase.OnBaseDestroyed += ShowGameOverUI;
 
         // Update the UI immediately for start of game
         UpdateWaveUI();
@@ -63,5 +68,10 @@ public class UIManager : MonoBehaviour
         {
             _playerHealthText.text = $"Health: {_tdManager.PlayerBase.CurrentHealth}/{_tdManager.PlayerBase.MaxHealth}";
         }
+    }
+
+    private void ShowGameOverUI()
+    {
+        _gameOverUI.SetActive(true);
     }
 }

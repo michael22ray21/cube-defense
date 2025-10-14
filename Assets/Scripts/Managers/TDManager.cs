@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TDManager : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class TDManager : MonoBehaviour
     {
         InitializeGame();
         StartWaves();
+
+        _playerBase.OnBaseDestroyed += StopGame;
     }
 
     private void InitializeGame()
@@ -55,5 +58,28 @@ public class TDManager : MonoBehaviour
     private void StartWaves()
     {
         _waveManager.StartWaves();
+    }
+
+    private void StopGame()
+    {
+        Time.timeScale = 0f; // pause the game
+    }
+
+    public void RestartGame()
+    {
+        Debug.Log("Restarting Game...");
+        Time.timeScale = 1f; // Unpause the game
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ExitGame()
+    {
+        Debug.Log("Exiting Game...");
+        Time.timeScale = 1f; // unpause the game
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
     }
 }

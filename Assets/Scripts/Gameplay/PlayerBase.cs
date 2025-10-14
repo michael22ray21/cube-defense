@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
@@ -7,6 +8,8 @@ public class PlayerBase : MonoBehaviour
 
     public int CurrentHealth => _currentHealth;
     public int MaxHealth => _maxHealth;
+
+    public Action OnBaseDestroyed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -26,12 +29,13 @@ public class PlayerBase : MonoBehaviour
 
         if (_currentHealth == 0)
         {
-            OnBaseDestroyed();
+            BaseDestroyed();
         }
     }
 
-    private void OnBaseDestroyed()
+    private void BaseDestroyed()
     {
+        OnBaseDestroyed?.Invoke();
         Debug.Log("Player Base Destroyed! Game Over!");
     }
 }
