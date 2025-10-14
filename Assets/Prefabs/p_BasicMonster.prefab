@@ -48,6 +48,8 @@ MonoBehaviour:
   _moveSpeed: 2
   _maxHealth: 100
   _moneyReward: 10
+  _healthBarPrefab: {fileID: 7405134885999251510, guid: cf1bf98c07dad447981507b53cfaf964, type: 3}
+  _tdManager: {fileID: 0}
 --- !u!1 &1742966558703132075
 GameObject:
   m_ObjectHideFlags: 0

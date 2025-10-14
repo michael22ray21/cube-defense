@@ -11,6 +11,11 @@ public class PlayerBase : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
+        SetCurrentHealth();
+    }
+
+    private void SetCurrentHealth()
+    {
         _currentHealth = _maxHealth;
     }
 

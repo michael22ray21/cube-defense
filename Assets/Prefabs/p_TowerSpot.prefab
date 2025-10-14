@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7752001148616281965}
+  - component: {fileID: 6553390140453660286}
   - component: {fileID: 47720487717038548}
   - component: {fileID: 1199103855936879876}
   - component: {fileID: 6467867871262053930}
-  - component: {fileID: 6553390140453660286}
   m_Layer: 0
   m_Name: p_TowerSpot
   m_TagString: Untagged
@@ -35,6 +35,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6553390140453660286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703423106903139872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eacb00b7a0144aebaffebe3f4f44d78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerSpot
+  _towerCost: 25
+  _towerPrefab: {fileID: 4478670852585857857, guid: b51319fdaa80749ec8cfa87843988a48, type: 3}
+  _towerSpawnPoint: {fileID: 0}
+  _renderer: {fileID: 0}
 --- !u!33 &47720487717038548
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -112,18 +128,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6553390140453660286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1703423106903139872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eacb00b7a0144aebaffebe3f4f44d78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TowerSpot
-  _towerPrefab: {fileID: 4478670852585857857, guid: b51319fdaa80749ec8cfa87843988a48, type: 3}
-  _towerCost: 50
-  _towerSpawnPoint: {fileID: 0}

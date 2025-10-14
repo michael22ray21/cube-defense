@@ -45,6 +45,7 @@ public class Tower : MonoBehaviour
         // then look for the closest Monster from the tower
         foreach (Monster monster in allMonsters)
         {
+            //^ small optimization, use SqrMagnitude
             float distance = Vector3.Distance(transform.position, monster.transform.position);
 
             if (distance <= _range && distance < closestDistance)
@@ -60,18 +61,23 @@ public class Tower : MonoBehaviour
         if (_currentTarget == null) return;
 
         // this part is supposed to change the direction of the tower is facing
-        // Vector3 direction = (_currentTarget.transform.position - transform.position).normalized;
-        // Debug.Log(direction);
-        // transform.LookAt(transform.position + direction, Vector3.up);
+        Vector3 direction = (_currentTarget.transform.position - transform.position).normalized;
+        direction.y = 0;
+        transform.forward = direction;
 
         Debug.Log($"Tower shooting at {_currentTarget.name} for {_damage} damage!");
         _currentTarget.TakeDamage(_damage);
     }
 
+    // preprocessor directive
+    #region EDITOR
+#if UNITY_EDITOR
     // Visualize range in Scene view
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _range);
     }
+#endif
+    #endregion
 }

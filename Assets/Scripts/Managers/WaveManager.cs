@@ -1,11 +1,9 @@
 using System.Collections;
-using System.Security.Cryptography.X509Certificates;
-using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
 
 public partial class WaveManager : MonoBehaviour
 {
+    [SerializeField] private TDManager _tdManager;
     [SerializeField] private Transform[] _pathWaypoints;
     [SerializeField] private WaveMonster[] _waveMonsters;
     [SerializeField] private float _timeBetweenWaves = 5f;
@@ -18,10 +16,33 @@ public partial class WaveManager : MonoBehaviour
     public int MonstersAlive => _monstersAlive;
     public float TimeBetweenWaves => _timeBetweenWaves;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
+    public event System.Action OnWaveStarted;
+
+    public void StartWaves()
     {
         StartCoroutine(WaveSequence());
+    }
+
+    private void SpawnMonster(GameObject monsterPrefab)
+    {
+        if (_pathWaypoints == null || _pathWaypoints.Length == 0)
+        {
+            Debug.Log("No path waypoints set!");
+            return;
+        }
+
+        GameObject monsterObj = Instantiate(monsterPrefab, _pathWaypoints[0].position, Quaternion.identity);
+        if (monsterObj.TryGetComponent<Monster>(out var monster))
+        {
+            monster.Initialize(_tdManager, _pathWaypoints);
+            _monstersAlive++;
+        }
+    }
+
+    public void OnMonsterDead()
+    {
+        _monstersAlive--;
+        if (_monstersAlive < 0) _monstersAlive = 0;
     }
 
     private IEnumerator WaveSequence()
@@ -37,6 +58,7 @@ public partial class WaveManager : MonoBehaviour
             // start the new wave
             _currentWaveNumber++;
             _waveInProgress = true;
+            OnWaveStarted?.Invoke();
             Debug.Log($"Wave {_currentWaveNumber} is starting!"); //^ logging
 
             yield return StartCoroutine(SpawnWave());
@@ -54,29 +76,5 @@ public partial class WaveManager : MonoBehaviour
             SpawnMonster(waveMonster.MonsterPrefab);
             yield return new WaitForSeconds(waveMonster.SpawnDelay);
         }
-    }
-
-    private void SpawnMonster(GameObject monsterPrefab)
-    {
-        if (_pathWaypoints == null || _pathWaypoints.Length == 0)
-        {
-            Debug.Log("No path waypoints set!");
-            return;
-        }
-
-        GameObject monsterObj = Instantiate(monsterPrefab, _pathWaypoints[0].position, Quaternion.identity);
-        Monster monster = monsterObj.GetComponent<Monster>();
-
-        if (monster != null)
-        {
-            monster.Initialize(_pathWaypoints);
-            _monstersAlive++;
-        }
-    }
-
-    public void OnMonsterDead()
-    {
-        _monstersAlive--;
-        if (_monstersAlive < 0) _monstersAlive = 0;
     }
 }

@@ -1,16 +1,20 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [RequireComponent(typeof(Renderer))]
 public class TowerSpot : MonoBehaviour
 {
-    [SerializeField] private GameObject _towerPrefab;
+    [Title("Parameters")]
     [SerializeField] private int _towerCost = 50;
+
+    [Title("References")]
+    [SerializeField] private GameObject _towerPrefab;
     [SerializeField] private Transform _towerSpawnPoint;
+    [SerializeField] private Renderer _renderer;
 
     private bool _isOccupied = false;
     private Material _originalMaterial;
     private Color _originalColor;
-    private Renderer _renderer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -28,12 +32,36 @@ public class TowerSpot : MonoBehaviour
         }
     }
 
+    private void ChangeColorGreen()
+    {
+        _renderer.material.color = Color.green;
+    }
+
+    private void ResetMaterialAndColor()
+    {
+        _renderer.material = _originalMaterial;
+        _renderer.material.color = _originalColor;
+    }
+
+    private void SetRenderer(bool state)
+    {
+        _renderer.enabled = state;
+    }
+
     // when the spot is clicked
     private void OnMouseDown()
     {
         if (_isOccupied)
         {
             Debug.Log("Tower spot occupied!");
+            return;
+        }
+
+        // money checking
+        MoneyManager moneyManager = FindFirstObjectByType<MoneyManager>();
+        if (moneyManager != null && !moneyManager.TrySpendMoney(_towerCost))
+        {
+            Debug.Log("Not enough money!");
             return;
         }
 
@@ -45,7 +73,7 @@ public class TowerSpot : MonoBehaviour
     {
         if (!_isOccupied && _renderer != null)
         {
-            _renderer.material.color = Color.green;
+            ChangeColorGreen();
         }
     }
 
@@ -54,8 +82,7 @@ public class TowerSpot : MonoBehaviour
     {
         if (!_isOccupied && _renderer != null)
         {
-            _renderer.material = _originalMaterial;
-            _renderer.material.color = _originalColor;
+            ResetMaterialAndColor();
         }
     }
 
@@ -73,12 +100,12 @@ public class TowerSpot : MonoBehaviour
 
         _isOccupied = true;
 
-        Debug.Log($"Tower deployed. {_towerCost} incurred!");
+        Debug.Log($"Tower deployed. ${_towerCost} incurred!");
 
         // hide the tower spot, now a tower is deployed here
         if (_renderer != null)
         {
-            _renderer.enabled = false;
+            SetRenderer(false);
         }
     }
 }
