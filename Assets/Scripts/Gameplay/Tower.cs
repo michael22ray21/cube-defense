@@ -1,15 +1,20 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    [Title("References")]
+    [SerializeField] private LayerMask _enemyLayer;
+
+    [Title("Parameters")]
     [SerializeField] private float _fireRate = 1f; // Shots per second
     [SerializeField] private float _range = 5f;
     [SerializeField] private int _damage = 25;
-    [SerializeField] private LayerMask _enemyLayer;
 
     private float _fireCooldown = 0f;
     private Monster _currentTarget;
 
+    #region BEHAVIOUR
     // Update is called once per frame
     private void Update()
     {
@@ -23,7 +28,9 @@ public class Tower : MonoBehaviour
             _fireCooldown = 1f / _fireRate;
         }
     }
+    #endregion
 
+    #region UTILITY
     private void FindTarget()
     {
         // Check if current target is still valid
@@ -68,6 +75,7 @@ public class Tower : MonoBehaviour
         Debug.Log($"Tower shooting at {_currentTarget.name} for {_damage} damage!");
         _currentTarget.TakeDamage(_damage);
     }
+    #endregion
 
     // preprocessor directive
     #region EDITOR

@@ -1,8 +1,10 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
+    [Title("Parameters")]
     [SerializeField] private int _maxHealth = 3;
     private int _currentHealth;
 
@@ -11,12 +13,15 @@ public class PlayerBase : MonoBehaviour
 
     public Action OnBaseDestroyed;
 
+    #region BEHAVIOUR
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         SetCurrentHealth();
     }
+    #endregion
 
+    #region UTILITY
     private void SetCurrentHealth()
     {
         _currentHealth = _maxHealth;
@@ -38,4 +43,5 @@ public class PlayerBase : MonoBehaviour
         OnBaseDestroyed?.Invoke();
         Debug.Log("Player Base Destroyed! Game Over!");
     }
+    #endregion
 }

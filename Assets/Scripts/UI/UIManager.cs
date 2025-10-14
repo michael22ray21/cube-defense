@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [Title("Managers")]
+    [Title("References")]
     [SerializeField] private TDManager _tdManager;
+
     [Title("GUI Elements")]
     [SerializeField] private TextMeshProUGUI _waveNumberText;
     [SerializeField] private TextMeshProUGUI _monstersRemainingText;
@@ -13,16 +14,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _playerHealthText;
     [SerializeField] private GameObject _gameOverUI;
 
+    #region BEHAVIOUR
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        _tdManager.WaveManager.OnWaveStarted += UpdateWaveUI;
-        _tdManager.MoneyManager.OnMoneyChanged += UpdateMoneyUI;
-        _tdManager.PlayerBase.OnBaseDestroyed += ShowGameOverUI;
-
+        HandleSubscribeToEvents(true);
         // Update the UI immediately for start of game
         UpdateWaveUI();
-        UpdateMoneyUI(_tdManager.MoneyManager?.CurrentMoney ?? 0);
+        UpdateMoneyUI(_tdManager.MoneyManager == null ? _tdManager.MoneyManager.CurrentMoney : 0);
         UpdateHealthUI();
     }
 
@@ -32,6 +31,24 @@ public class UIManager : MonoBehaviour
         // these are updated every frame for seamlessness
         UpdateMonstersRemainingUI();
         UpdateHealthUI();
+    }
+    #endregion
+
+    #region UTILITY
+    private void HandleSubscribeToEvents(bool sub)
+    {
+        if (sub)
+        {
+            _tdManager.WaveManager.OnWaveStarted += UpdateWaveUI;
+            _tdManager.MoneyManager.OnMoneyChanged += UpdateMoneyUI;
+            _tdManager.PlayerBase.OnBaseDestroyed += ShowGameOverUI;
+        }
+        else
+        {
+            _tdManager.WaveManager.OnWaveStarted -= UpdateWaveUI;
+            _tdManager.MoneyManager.OnMoneyChanged -= UpdateMoneyUI;
+            _tdManager.PlayerBase.OnBaseDestroyed -= ShowGameOverUI;
+        }
     }
 
     // wave number UI
@@ -74,4 +91,5 @@ public class UIManager : MonoBehaviour
     {
         _gameOverUI.SetActive(true);
     }
+    #endregion
 }

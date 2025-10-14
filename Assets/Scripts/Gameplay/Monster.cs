@@ -1,12 +1,16 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    [Title("References")]
+    [SerializeField] private GameObject _healthBarPrefab;
+
+    [Title("Parameters")]
     [SerializeField] private float _moveSpeed = 2f;
     [SerializeField] private int _maxHealth = 100;
     [SerializeField] private int _moneyReward = 10;
-    [SerializeField] private GameObject _healthBarPrefab;
 
     private TDManager _tdManager;
     private bool _hasHealthBar = false;
@@ -20,6 +24,7 @@ public class Monster : MonoBehaviour
     public Action OnTakeDamage;
     public Action OnDeath;
 
+    #region BEHAVIOUR
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -46,7 +51,9 @@ public class Monster : MonoBehaviour
 
         MoveAlongPath();
     }
+    #endregion
 
+    #region UTILITY
     private void SetCurrentHealth()
     {
         _currentHealth = _maxHealth;
@@ -137,4 +144,5 @@ public class Monster : MonoBehaviour
         //^ for future reference, will use pooling
         Destroy(gameObject);
     }
+    #endregion
 }

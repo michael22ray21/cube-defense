@@ -4,18 +4,20 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer))]
 public class TowerSpot : MonoBehaviour
 {
-    [Title("Parameters")]
-    [SerializeField] private int _towerCost = 50;
-
     [Title("References")]
     [SerializeField] private GameObject _towerPrefab;
     [SerializeField] private Transform _towerSpawnPoint;
     [SerializeField] private Renderer _renderer;
+    [SerializeField] private TDManager _tdManager;
+
+    [Title("Parameters")]
+    [SerializeField] private int _towerCost = 50;
 
     private bool _isOccupied = false;
     private Material _originalMaterial;
     private Color _originalColor;
 
+    #region BEHAVIOUR
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -29,6 +31,30 @@ public class TowerSpot : MonoBehaviour
         if (_towerSpawnPoint == null)
         {
             _towerSpawnPoint = transform;
+        }
+    }
+    #endregion
+
+    #region UTILITY
+    private void PlaceTower()
+    {
+        if (_towerPrefab == null)
+        {
+            Debug.Log("Tower prefab not set yet.");
+            return;
+        }
+
+        // instantiate a new tower
+        Instantiate(_towerPrefab, _towerSpawnPoint.position, Quaternion.identity, transform);
+
+        _isOccupied = true;
+
+        Debug.Log($"Tower deployed. ${_towerCost} incurred!");
+
+        // hide the tower spot, now a tower is deployed here
+        if (_renderer != null)
+        {
+            SetRenderer(false);
         }
     }
 
@@ -47,7 +73,9 @@ public class TowerSpot : MonoBehaviour
     {
         _renderer.enabled = state;
     }
+    #endregion
 
+    #region EVENT
     // when the spot is clicked
     private void OnMouseDown()
     {
@@ -58,8 +86,7 @@ public class TowerSpot : MonoBehaviour
         }
 
         // money checking
-        MoneyManager moneyManager = FindFirstObjectByType<MoneyManager>();
-        if (moneyManager != null && !moneyManager.TrySpendMoney(_towerCost))
+        if (!_tdManager.MoneyManager.TrySpendMoney(_towerCost))
         {
             Debug.Log("Not enough money!");
             return;
@@ -85,27 +112,5 @@ public class TowerSpot : MonoBehaviour
             ResetMaterialAndColor();
         }
     }
-
-    private void PlaceTower()
-    {
-        if (_towerPrefab == null)
-        {
-            Debug.Log("Tower prefab not set yet.");
-            return;
-        }
-
-        // instantiate a new tower
-        GameObject tower = Instantiate(_towerPrefab, _towerSpawnPoint.position, Quaternion.identity);
-        tower.transform.SetParent(transform);
-
-        _isOccupied = true;
-
-        Debug.Log($"Tower deployed. ${_towerCost} incurred!");
-
-        // hide the tower spot, now a tower is deployed here
-        if (_renderer != null)
-        {
-            SetRenderer(false);
-        }
-    }
+    #endregion
 }

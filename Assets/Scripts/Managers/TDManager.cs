@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +7,7 @@ public class TDManager : MonoBehaviour
     // the instance of this class - This should be the ONLY instance
     private static TDManager _instance;
 
+    [Title("References")]
     [SerializeField] private MoneyManager _moneyManager;
     [SerializeField] private WaveManager _waveManager;
     [SerializeField] private PlayerBase _playerBase;
