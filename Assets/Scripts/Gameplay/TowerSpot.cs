@@ -45,7 +45,8 @@ public class TowerSpot : MonoBehaviour
         }
 
         // instantiate a new tower
-        Instantiate(_towerPrefab, _towerSpawnPoint.position, Quaternion.identity, transform);
+        GameObject tower = Instantiate(_towerPrefab, _towerSpawnPoint.position, Quaternion.identity);
+        tower.transform.SetParent(transform);
 
         _isOccupied = true;
 

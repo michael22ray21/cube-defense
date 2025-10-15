@@ -5,7 +5,9 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     [Title("References")]
-    [SerializeField] private GameObject _healthBarPrefab;
+    // [SerializeField] private GameObject _healthBarPrefab;
+    [SerializeField] private Canvas _canvas;
+    [SerializeField] private GameObject _healthBar;
 
     [Title("Parameters")]
     [SerializeField] private float _moveSpeed = 2f;
@@ -13,7 +15,7 @@ public class Monster : MonoBehaviour
     [SerializeField] private int _moneyReward = 10;
 
     private TDManager _tdManager;
-    private bool _hasHealthBar = false;
+    private bool _healthBarShown = false;
     private int _currentHealth;
     private Transform[] _pathPoints; // these path points are to direct the monster movements
     private int _currentPathIndex = 0;
@@ -32,9 +34,10 @@ public class Monster : MonoBehaviour
         CheckTDManager();
     }
 
-    public void Initialize(TDManager tdManager, Transform[] pathPoints)
+    public void Initialize(TDManager tdManager, Camera camera, Transform[] pathPoints)
     {
         _tdManager = tdManager;
+        _canvas.worldCamera = camera;
         _pathPoints = pathPoints;
         _currentPathIndex = 0;
 
@@ -92,16 +95,24 @@ public class Monster : MonoBehaviour
     {
         _currentHealth -= damage;
 
-        // show health bar upon first damage
-        if (_hasHealthBar == false && _healthBarPrefab != null)
+        if (!_healthBarShown && _healthBar != null)
         {
-            GameObject healthBarObj = Instantiate(_healthBarPrefab, transform.position, Quaternion.identity, transform);
-            if (healthBarObj != null)
-            {
-                HealthBar healthBar = healthBarObj.GetComponent<HealthBar>();
-                healthBar.Initialize(this);
-                _hasHealthBar = true;
-            }
+            _healthBar.GetComponent<HealthBar>().Initialize(this);
+            _healthBar.SetActive(true);
+            _healthBarShown = true;
+        }
+
+        {// show health bar upon first damage
+         // if (_hasHealthBar == false && _healthBarPrefab != null)
+         // {
+         // GameObject healthBarObj = Instantiate(_healthBarPrefab, transform.position, Quaternion.identity, transform);
+         // if (healthBarObj != null)
+         // {
+         //     HealthBar healthBar = healthBarObj.GetComponent<HealthBar>();
+         //     healthBar.Initialize(this);
+         //     _hasHealthBar = true;
+         // }
+         // }
         }
 
         OnTakeDamage?.Invoke();

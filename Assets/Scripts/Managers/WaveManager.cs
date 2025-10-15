@@ -7,6 +7,7 @@ public partial class WaveManager : MonoBehaviour
 {
     [Title("References")]
     [SerializeField] private TDManager _tdManager;
+    [SerializeField] private Camera _camera;
     [SerializeField] private Transform[] _pathWaypoints;
     [SerializeField] private WaveMonster[] _waveMonsters;
 
@@ -40,7 +41,7 @@ public partial class WaveManager : MonoBehaviour
         GameObject monsterObj = Instantiate(monsterPrefab, _pathWaypoints[0].position, Quaternion.identity);
         if (monsterObj.TryGetComponent<Monster>(out var monster))
         {
-            monster.Initialize(_tdManager, _pathWaypoints);
+            monster.Initialize(_tdManager, _camera, _pathWaypoints);
             _monstersAlive++;
         }
     }
