@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _moneyText;
     [SerializeField] private TextMeshProUGUI _playerHealthText;
     [SerializeField] private GameObject _gameOverUI;
+    [SerializeField] private GameObject _winUI;
 
     #region BEHAVIOUR
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -40,12 +41,14 @@ public class UIManager : MonoBehaviour
         if (sub)
         {
             _tdManager.WaveManager.OnWaveStarted += UpdateWaveUI;
+            _tdManager.WaveManager.OnAllWavesComplete += ShowWinUI;
             _tdManager.MoneyManager.OnMoneyChanged += UpdateMoneyUI;
             _tdManager.PlayerBase.OnBaseDestroyed += ShowGameOverUI;
         }
         else
         {
             _tdManager.WaveManager.OnWaveStarted -= UpdateWaveUI;
+            _tdManager.WaveManager.OnAllWavesComplete -= ShowWinUI;
             _tdManager.MoneyManager.OnMoneyChanged -= UpdateMoneyUI;
             _tdManager.PlayerBase.OnBaseDestroyed -= ShowGameOverUI;
         }
@@ -90,6 +93,11 @@ public class UIManager : MonoBehaviour
     private void ShowGameOverUI()
     {
         _gameOverUI.SetActive(true);
+    }
+
+    private void ShowWinUI()
+    {
+        _winUI.SetActive(true);
     }
     #endregion
 }

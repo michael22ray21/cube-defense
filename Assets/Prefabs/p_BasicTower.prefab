@@ -411,6 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a38586a76e948389cbf90f39c955e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tower
+  _showDebug: 0
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -418,7 +419,7 @@ MonoBehaviour:
   _projectileSpawnPoint: {fileID: 8315050844870378836}
   _fireRate: 1
   _range: 5
-  _damage: 20
+  _damage: 25
 --- !u!1 &7146141544793758288
 GameObject:
   m_ObjectHideFlags: 0
