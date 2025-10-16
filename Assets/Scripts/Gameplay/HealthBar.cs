@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
+    [Title("Editor")]
+    [SerializeField] private bool _showDebug = false;
+
     [Title("References")]
     [SerializeField] private Image _hpImage;
     [SerializeField] private Image _effectImage;
@@ -20,12 +23,12 @@ public class HealthBar : MonoBehaviour
         // check for image components
         if (_hpImage == null)
         {
-            Debug.Log("Fill Image is not set! Finding component...");
+            if (_showDebug) Debug.Log("Fill Image is not set! Finding component...");
             _hpImage = GameObject.Find("HealthBar").GetComponent<Image>();
         }
         if (_effectImage == null)
         {
-            Debug.Log("Effect Image is not set! Finding component...");
+            if (_showDebug) Debug.Log("Effect Image is not set! Finding component...");
             _effectImage = GameObject.Find("EffectFill").GetComponent<Image>();
         }
         // _canvas = GetComponentInParent<Canvas>();

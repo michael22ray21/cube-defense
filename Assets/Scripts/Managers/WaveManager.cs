@@ -5,6 +5,9 @@ using UnityEngine;
 
 public partial class WaveManager : MonoBehaviour
 {
+    [Title("Editor")]
+    [SerializeField] private bool _showDebug = false;
+
     [Title("References")]
     [SerializeField] private TDManager _tdManager;
     [SerializeField] private Camera _camera;
@@ -34,7 +37,7 @@ public partial class WaveManager : MonoBehaviour
     {
         if (_pathWaypoints == null || _pathWaypoints.Length == 0)
         {
-            Debug.Log("No path waypoints set!");
+            Debug.LogError("No path waypoints set!");
             return;
         }
 
@@ -60,7 +63,7 @@ public partial class WaveManager : MonoBehaviour
         {
             // puts a delay in between wave, EVEN before the first wave
             // _waveInProgress = false;
-            Debug.Log($"Wave {_currentWaveNumber} complete. Next wave in {_timeBetweenWaves} seconds..."); //^ logging
+            if (_showDebug) Debug.Log($"Wave {_currentWaveNumber} complete. Next wave in {_timeBetweenWaves} seconds..."); //^ logging
 
             yield return new WaitForSeconds(_timeBetweenWaves);
 
@@ -68,7 +71,7 @@ public partial class WaveManager : MonoBehaviour
             _currentWaveNumber++;
             // _waveInProgress = true;
             OnWaveStarted?.Invoke();
-            Debug.Log($"Wave {_currentWaveNumber} is starting!"); //^ logging
+            if (_showDebug) Debug.Log($"Wave {_currentWaveNumber} is starting!"); //^ logging
 
             yield return StartCoroutine(SpawnWave());
 

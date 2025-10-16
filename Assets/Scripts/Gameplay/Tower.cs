@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    [Title("Editor")]
+    [SerializeField] private bool _showDebug = false;
+
     [Title("References")]
     [SerializeField] private LayerMask _enemyLayer;
     [SerializeField] private GameObject _projectilePrefab;
@@ -98,7 +101,7 @@ public class Tower : MonoBehaviour
         }
         else
         { // Fallback to instant damage when no projectile prefab set
-            Debug.Log($"Tower shooting at {_currentTarget.name} for {_damage} damage!");
+            if (_showDebug) Debug.Log($"Tower shooting at {_currentTarget.name} for {_damage} damage!");
             _currentTarget.TakeDamage(_damage);
         }
     }

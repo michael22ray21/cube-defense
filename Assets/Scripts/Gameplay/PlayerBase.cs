@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
+    [Title("Editor")]
+    [SerializeField] private bool _showDebug = false;
+
     [Title("Parameters")]
     [SerializeField] private int _maxHealth = 3;
     private int _currentHealth;
@@ -30,7 +33,7 @@ public class PlayerBase : MonoBehaviour
     public void TakeDamage(int damage)
     {
         _currentHealth -= damage;
-        Debug.Log($"The base got damaged. {_currentHealth}/{_maxHealth}");
+        if (_showDebug) Debug.Log($"The base got damaged. {_currentHealth}/{_maxHealth}");
 
         if (_currentHealth == 0)
         {
@@ -41,7 +44,7 @@ public class PlayerBase : MonoBehaviour
     private void BaseDestroyed()
     {
         OnBaseDestroyed?.Invoke();
-        Debug.Log("Player Base Destroyed! Game Over!");
+        if (_showDebug) Debug.Log("Player Base Destroyed! Game Over!");
     }
     #endregion
 }

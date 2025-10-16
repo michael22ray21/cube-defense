@@ -4,6 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer))]
 public class TowerSpot : MonoBehaviour
 {
+    [Title("Editor")]
+    [SerializeField] private bool _showDebug = false;
+
     [Title("References")]
     [SerializeField] private GameObject _towerPrefab;
     [SerializeField] private Transform _towerSpawnPoint;
@@ -40,7 +43,7 @@ public class TowerSpot : MonoBehaviour
     {
         if (_towerPrefab == null)
         {
-            Debug.Log("Tower prefab not set yet.");
+            Debug.LogError("Tower prefab not set yet.");
             return;
         }
 
@@ -50,7 +53,7 @@ public class TowerSpot : MonoBehaviour
 
         _isOccupied = true;
 
-        Debug.Log($"Tower deployed. ${_towerCost} incurred!");
+        if (_showDebug) Debug.Log($"Tower deployed. ${_towerCost} incurred!");
 
         // hide the tower spot, now a tower is deployed here
         if (_renderer != null)
@@ -82,14 +85,14 @@ public class TowerSpot : MonoBehaviour
     {
         if (_isOccupied)
         {
-            Debug.Log("Tower spot occupied!");
+            if (_showDebug) Debug.Log("Tower spot occupied!");
             return;
         }
 
         // money checking
         if (!_tdManager.MoneyManager.TrySpendMoney(_towerCost))
         {
-            Debug.Log("Not enough money!");
+            if (_showDebug) Debug.Log("Not enough money!");
             return;
         }
 

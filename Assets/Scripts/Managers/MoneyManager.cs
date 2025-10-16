@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MoneyManager : MonoBehaviour
 {
+    [Title("Editor")]
+    [SerializeField] private bool _showDebug = false;
+
     [Title("Parameters")]
     [SerializeField] private int _startingMoney = 50;
     private int _currentMoney;
@@ -17,7 +20,7 @@ public class MoneyManager : MonoBehaviour
     {
         _currentMoney = _startingMoney;
         OnMoneyChanged?.Invoke(_currentMoney);
-        Debug.Log($"Starting money: ${_currentMoney}");
+        if (_showDebug) Debug.Log($"Starting money: ${_currentMoney}");
     }
     #endregion
 
@@ -29,11 +32,11 @@ public class MoneyManager : MonoBehaviour
         {
             _currentMoney -= amount;
             OnMoneyChanged?.Invoke(_currentMoney);
-            Debug.Log($"${amount} spent! Balance: ${_currentMoney}");
+            if (_showDebug) Debug.Log($"${amount} spent! Balance: ${_currentMoney}");
             return true;
         }
 
-        Debug.Log($"Not enough money! Have {_currentMoney}/{amount}");
+        if (_showDebug) Debug.Log($"Not enough money! Have {_currentMoney}/{amount}");
         return false;
     }
 
@@ -42,7 +45,7 @@ public class MoneyManager : MonoBehaviour
     {
         _currentMoney += amount;
         OnMoneyChanged?.Invoke(_currentMoney);
-        Debug.Log($"Gained ${amount}. Balance ${_currentMoney}");
+        if (_showDebug) Debug.Log($"Gained ${amount}. Balance ${_currentMoney}");
     }
     #endregion
 }

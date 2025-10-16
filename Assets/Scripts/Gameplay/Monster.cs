@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    [Title("Editor")]
+    [SerializeField] private bool _showDebug = false;
+
     [Title("References")]
     // [SerializeField] private GameObject _healthBarPrefab;
     [SerializeField] private Canvas _canvas;
@@ -102,19 +105,6 @@ public class Monster : MonoBehaviour
             _healthBarShown = true;
         }
 
-        {// show health bar upon first damage
-         // if (_hasHealthBar == false && _healthBarPrefab != null)
-         // {
-         // GameObject healthBarObj = Instantiate(_healthBarPrefab, transform.position, Quaternion.identity, transform);
-         // if (healthBarObj != null)
-         // {
-         //     HealthBar healthBar = healthBarObj.GetComponent<HealthBar>();
-         //     healthBar.Initialize(this);
-         //     _hasHealthBar = true;
-         // }
-         // }
-        }
-
         OnTakeDamage?.Invoke();
 
         if (_currentHealth <= 0)
@@ -125,7 +115,7 @@ public class Monster : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("Monster died! Cha-ching!");
+        if (_showDebug) Debug.Log("Monster died! Cha-ching!");
 
         // reward money
         _tdManager.MoneyManager.AddMoney(_moneyReward);
@@ -141,7 +131,7 @@ public class Monster : MonoBehaviour
 
     private void ReachedEnd()
     {
-        Debug.Log("Monster breached the base!");
+        if (_showDebug) Debug.Log("Monster breached the base!");
 
         // damage the base
         _tdManager.PlayerBase.TakeDamage(1);

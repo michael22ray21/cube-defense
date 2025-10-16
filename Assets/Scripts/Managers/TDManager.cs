@@ -7,6 +7,9 @@ public class TDManager : MonoBehaviour
     // the instance of this class - This should be the ONLY instance
     private static TDManager _instance;
 
+    [Title("Editor")]
+    [SerializeField] private bool _showDebug = false;
+
     [Title("References")]
     [SerializeField] private MoneyManager _moneyManager;
     [SerializeField] private WaveManager _waveManager;
@@ -53,7 +56,7 @@ public class TDManager : MonoBehaviour
 
         if (_moneyManager == null || _waveManager == null || _playerBase == null)
         {
-            Debug.Log("[ERROR] No instance(s) of required managers!");
+            Debug.LogError("[ERROR] No instance(s) of required managers!");
         }
     }
 
@@ -69,14 +72,14 @@ public class TDManager : MonoBehaviour
 
     public void RestartGame()
     {
-        Debug.Log("Restarting Game...");
+        if (_showDebug) Debug.Log("Restarting Game...");
         Time.timeScale = 1f; // Unpause the game
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ExitGame()
     {
-        Debug.Log("Exiting Game...");
+        if (_showDebug) Debug.Log("Exiting Game...");
         Time.timeScale = 1f; // unpause the game
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
