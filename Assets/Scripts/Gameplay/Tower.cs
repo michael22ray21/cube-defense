@@ -5,6 +5,8 @@ public class Tower : MonoBehaviour
 {
     [Title("References")]
     [SerializeField] private LayerMask _enemyLayer;
+    [SerializeField] private GameObject _projectilePrefab;
+    [SerializeField] private Transform _projectileSpawnPoint;
 
     [Title("Parameters")]
     [SerializeField] private float _fireRate = 1f; // Shots per second
@@ -15,6 +17,11 @@ public class Tower : MonoBehaviour
     private Monster _currentTarget;
 
     #region BEHAVIOUR
+    private void Start()
+    {
+        CheckProjectileSpawnPoint();
+    }
+
     // Update is called once per frame
     private void Update()
     {
@@ -31,6 +38,13 @@ public class Tower : MonoBehaviour
     #endregion
 
     #region UTILITY
+    private void CheckProjectileSpawnPoint()
+    {
+        if (_projectileSpawnPoint == null)
+        {
+            _projectileSpawnPoint = transform;
+        }
+    }
     private void FindTarget()
     {
         // Check if current target is still valid
@@ -72,8 +86,21 @@ public class Tower : MonoBehaviour
         direction.y = 0;
         transform.forward = direction;
 
-        Debug.Log($"Tower shooting at {_currentTarget.name} for {_damage} damage!");
-        _currentTarget.TakeDamage(_damage);
+        if (_projectilePrefab != null)
+        {
+            GameObject projectileObj = Instantiate(_projectilePrefab, _projectileSpawnPoint.position, Quaternion.identity);
+            Projectile projectile = projectileObj.GetComponent<Projectile>();
+
+            if (projectile != null)
+            {
+                projectile.Initialize(_currentTarget, _damage, this);
+            }
+        }
+        else
+        { // Fallback to instant damage when no projectile prefab set
+            Debug.Log($"Tower shooting at {_currentTarget.name} for {_damage} damage!");
+            _currentTarget.TakeDamage(_damage);
+        }
     }
     #endregion
 
