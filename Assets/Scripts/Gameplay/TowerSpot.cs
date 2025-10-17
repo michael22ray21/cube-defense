@@ -92,7 +92,7 @@ public class TowerSpot : MonoBehaviour
     }
     #endregion
 
-    #region EVENT
+    #region Events
     private void HandleMouseInput()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

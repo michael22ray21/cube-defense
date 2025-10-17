@@ -62,7 +62,7 @@ public partial class WaveManager : MonoBehaviour
     }
     #endregion
 
-    #region COROUTINE
+    #region Coroutines
     private IEnumerator WaveSequence()
     {
         for (int waveIndex = 0; waveIndex < _waveConfigs.Length; waveIndex++)
