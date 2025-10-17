@@ -3,31 +3,34 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    #region Vars, Fields, Getters
     [Title("Editor")]
     [SerializeField] private bool _showDebug = false;
 
     [Title("References")]
-    [SerializeField] private LayerMask _enemyLayer;
+    [SerializeField] private TowerType _towerType;
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private Transform _projectileSpawnPoint;
 
-    [Title("Parameters")]
-    [SerializeField] private float _fireRate = 1f; // Shots per second
-    [SerializeField] private float _range = 5f;
-    [SerializeField] private int _damage = 25;
-
+    private float _fireRate; // Shots per second
+    private float _range;
+    private int _damage;
     private float _fireCooldown = 0f;
     private Monster _currentTarget;
+    #endregion
 
-    #region BEHAVIOUR
+    #region Behavior
     private void Start()
     {
+        SetValuesByTowerType();
         CheckProjectileSpawnPoint();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if (_towerType == null) return;
+
         _fireCooldown -= Time.deltaTime;
 
         FindTarget();
@@ -40,7 +43,22 @@ public class Tower : MonoBehaviour
     }
     #endregion
 
-    #region UTILITY
+    #region Utilities
+    private void SetValuesByTowerType()
+    {
+        if (_towerType == null)
+        {
+            Debug.LogError("Tower Type not set!");
+            return;
+        }
+
+        _fireRate = _towerType.FireRate;
+        _range = _towerType.Range;
+        _damage = _towerType.Damage;
+
+        if (_showDebug) Debug.Log($"Tower spawned: {_towerType.TowerName}");
+    }
+
     private void CheckProjectileSpawnPoint()
     {
         if (_projectileSpawnPoint == null)
@@ -48,6 +66,7 @@ public class Tower : MonoBehaviour
             _projectileSpawnPoint = transform;
         }
     }
+
     private void FindTarget()
     {
         // Check if current target is still valid
@@ -92,9 +111,7 @@ public class Tower : MonoBehaviour
         if (_projectilePrefab != null)
         {
             GameObject projectileObj = Instantiate(_projectilePrefab, _projectileSpawnPoint.position, Quaternion.identity);
-            Projectile projectile = projectileObj.GetComponent<Projectile>();
-
-            if (projectile != null)
+            if (projectileObj.TryGetComponent<Projectile>(out var projectile))
             {
                 projectile.Initialize(_currentTarget, _damage, this);
             }
@@ -108,7 +125,7 @@ public class Tower : MonoBehaviour
     #endregion
 
     // preprocessor directive
-    #region EDITOR
+    #region Editor
 #if UNITY_EDITOR
     // Visualize range in Scene view
     private void OnDrawGizmosSelected()

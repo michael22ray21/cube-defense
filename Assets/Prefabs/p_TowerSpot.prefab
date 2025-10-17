@@ -47,10 +47,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eacb00b7a0144aebaffebe3f4f44d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerSpot
+  _showDebug: 0
+  _tdManager: {fileID: 0}
+  _renderer: {fileID: 1199103855936879876}
+  _availableTowerTypes:
+  - {fileID: 11400000, guid: 1d62f84cec4874f75ac15a15b91823cb, type: 2}
+  - {fileID: 11400000, guid: b3e53dad6f9b441e99394acffd9591bf, type: 2}
+  - {fileID: 11400000, guid: 3ea1cb4d6b2384b63a0ce9cd1547bc64, type: 2}
   _towerCost: 25
-  _towerPrefab: {fileID: 4478670852585857857, guid: b51319fdaa80749ec8cfa87843988a48, type: 3}
-  _towerSpawnPoint: {fileID: 0}
-  _renderer: {fileID: 0}
+  _selectedTowerTypeIndex: 0
 --- !u!33 &47720487717038548
 MeshFilter:
   m_ObjectHideFlags: 0

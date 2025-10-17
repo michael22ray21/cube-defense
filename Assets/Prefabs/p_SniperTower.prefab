@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 2786056540747209023, guid: b51319fdaa80749ec8cfa87843988a48, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d42d9d2d2ee3d4144ac2a20e6c3d6ae7, type: 2}
     - target: {fileID: 4478670852585857857, guid: b51319fdaa80749ec8cfa87843988a48, type: 3}
       propertyPath: m_Name
       value: p_SniperTower
@@ -96,6 +100,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5495426172693461552, guid: b51319fdaa80749ec8cfa87843988a48, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d42d9d2d2ee3d4144ac2a20e6c3d6ae7, type: 2}
     - target: {fileID: 8315050844870378836, guid: b51319fdaa80749ec8cfa87843988a48, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.5
@@ -104,6 +112,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.551
       objectReference: {fileID: 0}
+    - target: {fileID: 8499589388778875836, guid: b51319fdaa80749ec8cfa87843988a48, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d42d9d2d2ee3d4144ac2a20e6c3d6ae7, type: 2}
     - target: {fileID: 8760438028000763213, guid: b51319fdaa80749ec8cfa87843988a48, type: 3}
       propertyPath: _towerType
       value: 
