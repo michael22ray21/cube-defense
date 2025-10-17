@@ -412,14 +412,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tower
   _showDebug: 0
-  _enemyLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  _towerType: {fileID: 11400000, guid: 1d62f84cec4874f75ac15a15b91823cb, type: 2}
   _projectilePrefab: {fileID: 8344626438549171183, guid: c763ce1c1b962400599fec85e0a13696, type: 3}
   _projectileSpawnPoint: {fileID: 8315050844870378836}
-  _fireRate: 1
-  _range: 5
-  _damage: 25
 --- !u!1 &7146141544793758288
 GameObject:
   m_ObjectHideFlags: 0

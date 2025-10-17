@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
+    #region Vars, Fields, Getters
     [Title("Editor")]
     [SerializeField] private bool _showDebug = false;
 
@@ -15,8 +16,10 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private float _hurtSpeed = 0.001f;
 
     private Monster _monster;
-    // private Canvas _canvas;
+    // private Canvas _canvas
+    #endregion;
 
+    #region Behavior
     public void Initialize(Monster monster)
     {
         _monster = monster;
@@ -47,11 +50,14 @@ public class HealthBar : MonoBehaviour
             _effectImage.fillAmount = _hpImage.fillAmount;
         }
     }
+    #endregion
 
+    #region Utilities
     private void UpdateHealthBar()
     {
         float healthPercent = (float)_monster.CurrentHealth / _monster.MaxHealth;
         healthPercent = Mathf.Clamp01(healthPercent);
         _hpImage.fillAmount = healthPercent;
     }
+    #endregion
 }

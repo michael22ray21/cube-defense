@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    #region Vars, Fields, Getters
     [Title("References")]
     [SerializeField] private TDManager _tdManager;
 
@@ -14,8 +15,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _playerHealthText;
     [SerializeField] private GameObject _gameOverUI;
     [SerializeField] private GameObject _winUI;
+    #endregion
 
-    #region BEHAVIOUR
+    #region Behavior
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -35,7 +37,7 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    #region UTILITY
+    #region Utilities
     private void HandleSubscribeToEvents(bool sub)
     {
         if (sub)

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoneyManager : MonoBehaviour
 {
+    #region Vars, Fields, Getters
     [Title("Editor")]
     [SerializeField] private bool _showDebug = false;
 
@@ -13,8 +14,9 @@ public class MoneyManager : MonoBehaviour
 
     public int CurrentMoney => _currentMoney;
     public event Action<int> OnMoneyChanged;
+    #endregion
 
-    #region BEHAVIOUR
+    #region Behavior
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -24,7 +26,7 @@ public class MoneyManager : MonoBehaviour
     }
     #endregion
 
-    #region UTILITY
+    #region Utilities
     // function to spend money
     public bool TrySpendMoney(int amount)
     {

@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public partial class WaveManager : MonoBehaviour
 {
+    #region Vars, Fields, Getters
     [Title("Editor")]
     [SerializeField] private bool _showDebug = false;
 
@@ -20,7 +21,7 @@ public partial class WaveManager : MonoBehaviour
 
     private int _currentWaveNumber = 0;
     private int _monstersAlive = 0;
-    private bool _waveInProgress = false;
+    // private bool _waveInProgress = false;
     private bool _allWavesComplete = false;
 
     public int CurrentWaveNumber => _currentWaveNumber;
@@ -30,8 +31,9 @@ public partial class WaveManager : MonoBehaviour
 
     public event Action OnWaveStarted;
     public event Action OnAllWavesComplete;
+    #endregion
 
-    #region UTILITY
+    #region Utilities
     public void StartWaves()
     {
         StartCoroutine(WaveSequence());
@@ -66,14 +68,14 @@ public partial class WaveManager : MonoBehaviour
         for (int waveIndex = 0; waveIndex < _waveConfigs.Length; waveIndex++)
         {
             // puts a delay in between wave, EVEN before the first wave
-            _waveInProgress = false;
+            // _waveInProgress = false;
             if (_showDebug) Debug.Log($"Wave {_currentWaveNumber} complete. Next wave in {_timeBetweenWaves} seconds..."); //^ logging
 
             yield return new WaitForSeconds(_timeBetweenWaves);
 
             // start the new wave
             _currentWaveNumber = waveIndex + 1;
-            _waveInProgress = true;
+            // _waveInProgress = true;
             OnWaveStarted?.Invoke();
             if (_showDebug) Debug.Log($"Wave {_currentWaveNumber} is starting!"); //^ logging
 

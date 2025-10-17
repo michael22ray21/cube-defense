@@ -4,6 +4,7 @@ using UnityEngine;
 [Serializable]
 public class WaveConfig
 {
+    #region Vars, Fields, Getters
     [SerializeField] private MonsterSpawnData[] _monsterSpawns;
     [SerializeField] private float _waveDuration;
 
@@ -19,4 +20,5 @@ public class WaveConfig
         public GameObject MonsterPrefab => _monsterPrefab;
         public float SpawnTime => _spawnTime;
     }
+    #endregion
 }

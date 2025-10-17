@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    #region Vars, Fields, Getters
     [Title("References")]
     [SerializeField] private GameObject _impactEffectPrefab;
 
@@ -11,7 +12,9 @@ public class Projectile : MonoBehaviour
 
     private Monster _target;
     private int _damage;
+    #endregion
 
+    #region Behavior
     public void Initialize(Monster target, int damage, Tower sourceTower)
     {
         _target = target;
@@ -42,7 +45,9 @@ public class Projectile : MonoBehaviour
             HitTarget();
         }
     }
+    #endregion
 
+    #region Utilities
     private void HitTarget()
     {
         if (_target != null)
@@ -58,4 +63,5 @@ public class Projectile : MonoBehaviour
 
         Destroy(gameObject);
     }
+    #endregion
 }

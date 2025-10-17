@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    #region Vars, Fields, Getters
     [Title("Editor")]
     [SerializeField] private bool _showDebug = false;
 
@@ -28,8 +29,9 @@ public class Monster : MonoBehaviour
 
     public Action OnTakeDamage;
     public Action OnDeath;
+    #endregion
 
-    #region BEHAVIOUR
+    #region Behavior
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -59,7 +61,7 @@ public class Monster : MonoBehaviour
     }
     #endregion
 
-    #region UTILITY
+    #region Utilities
     private void SetCurrentHealth()
     {
         _currentHealth = _maxHealth;

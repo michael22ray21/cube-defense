@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class TDManager : MonoBehaviour
 {
+    #region Vars, Fields, Getters
     // the instance of this class - This should be the ONLY instance
     private static TDManager _instance;
 
@@ -31,7 +32,9 @@ public class TDManager : MonoBehaviour
             return _instance;
         }
     }
+    #endregion
 
+    #region Behavior
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -59,7 +62,9 @@ public class TDManager : MonoBehaviour
             Debug.LogError("[ERROR] No instance(s) of required managers!");
         }
     }
+    #endregion
 
+    #region Utilities
     private void StartWaves()
     {
         _waveManager.StartWaves();
@@ -87,4 +92,5 @@ public class TDManager : MonoBehaviour
             Application.Quit();
 #endif
     }
+    #endregion
 }

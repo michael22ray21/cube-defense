@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
+    #region Vars, Fields, Getters
     [Title("Editor")]
     [SerializeField] private bool _showDebug = false;
 
@@ -15,8 +16,9 @@ public class PlayerBase : MonoBehaviour
     public int MaxHealth => _maxHealth;
 
     public Action OnBaseDestroyed;
+    #endregion
 
-    #region BEHAVIOUR
+    #region Behavior
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -24,7 +26,7 @@ public class PlayerBase : MonoBehaviour
     }
     #endregion
 
-    #region UTILITY
+    #region Utilities
     private void SetCurrentHealth()
     {
         _currentHealth = _maxHealth;
