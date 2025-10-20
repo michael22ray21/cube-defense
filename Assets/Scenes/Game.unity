@@ -2170,80 +2170,66 @@ MonoBehaviour:
   - {fileID: 259441860}
   _waveConfigs:
   - _monsterSpawns:
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: 28eaff23afddd404f88ca0e5252a9c5d, type: 2}
       _spawnTime: 0.5
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: 28eaff23afddd404f88ca0e5252a9c5d, type: 2}
       _spawnTime: 0.5
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: 28eaff23afddd404f88ca0e5252a9c5d, type: 2}
       _spawnTime: 0.5
     _waveDuration: 5
   - _monsterSpawns:
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: 28eaff23afddd404f88ca0e5252a9c5d, type: 2}
       _spawnTime: 0.5
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: 8250b25f9bc3a475e92c149ac86f3c65, type: 2}
       _spawnTime: 0.5
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: 8250b25f9bc3a475e92c149ac86f3c65, type: 2}
       _spawnTime: 0.5
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: 28eaff23afddd404f88ca0e5252a9c5d, type: 2}
       _spawnTime: 0.5
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: 8250b25f9bc3a475e92c149ac86f3c65, type: 2}
       _spawnTime: 0.5
     _waveDuration: 7
   - _monsterSpawns:
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: ef9831fd9fd4d49ce9aaa80fbfb92a55, type: 2}
+      _spawnTime: 1
+    - _monsterType: {fileID: 11400000, guid: 28eaff23afddd404f88ca0e5252a9c5d, type: 2}
       _spawnTime: 0.5
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.5
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.5
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.5
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.5
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.5
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: ef9831fd9fd4d49ce9aaa80fbfb92a55, type: 2}
+      _spawnTime: 1
+    - _monsterType: {fileID: 11400000, guid: 28eaff23afddd404f88ca0e5252a9c5d, type: 2}
       _spawnTime: 0.5
     _waveDuration: 10
   - _monsterSpawns:
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: 8250b25f9bc3a475e92c149ac86f3c65, type: 2}
       _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: 8250b25f9bc3a475e92c149ac86f3c65, type: 2}
       _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: 8250b25f9bc3a475e92c149ac86f3c65, type: 2}
       _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: 28eaff23afddd404f88ca0e5252a9c5d, type: 2}
       _spawnTime: 0.5
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: e18453edfe22d4478999db0382810b4b, type: 2}
       _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: ef9831fd9fd4d49ce9aaa80fbfb92a55, type: 2}
       _spawnTime: 0.1
     _waveDuration: 10
   - _monsterSpawns:
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+    - _monsterType: {fileID: 11400000, guid: 28eaff23afddd404f88ca0e5252a9c5d, type: 2}
       _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.1
-    - _monsterPrefab: {fileID: 1304300256705710400, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
-      _spawnTime: 0.1
+    - _monsterType: {fileID: 11400000, guid: 8250b25f9bc3a475e92c149ac86f3c65, type: 2}
+      _spawnTime: 0.3
+    - _monsterType: {fileID: 11400000, guid: ef9831fd9fd4d49ce9aaa80fbfb92a55, type: 2}
+      _spawnTime: 0.3
+    - _monsterType: {fileID: 11400000, guid: e18453edfe22d4478999db0382810b4b, type: 2}
+      _spawnTime: 0.3
+    - _monsterType: {fileID: 11400000, guid: 28eaff23afddd404f88ca0e5252a9c5d, type: 2}
+      _spawnTime: 0.3
+    - _monsterType: {fileID: 11400000, guid: 8250b25f9bc3a475e92c149ac86f3c65, type: 2}
+      _spawnTime: 0.3
+    - _monsterType: {fileID: 11400000, guid: ef9831fd9fd4d49ce9aaa80fbfb92a55, type: 2}
+      _spawnTime: 0.3
+    - _monsterType: {fileID: 11400000, guid: e18453edfe22d4478999db0382810b4b, type: 2}
+      _spawnTime: 0.3
     _waveDuration: 12
   _timeBetweenWaves: 5
 --- !u!1001 &1001629684

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public partial class WaveManager : MonoBehaviour
 {
@@ -39,7 +38,7 @@ public partial class WaveManager : MonoBehaviour
         StartCoroutine(WaveSequence());
     }
 
-    private void SpawnMonster(GameObject monsterPrefab)
+    private void SpawnMonster(MonsterType monsterType)
     {
         if (_pathWaypoints == null || _pathWaypoints.Length == 0)
         {
@@ -47,7 +46,12 @@ public partial class WaveManager : MonoBehaviour
             return;
         }
 
-        GameObject monsterObj = Instantiate(monsterPrefab, _pathWaypoints[0].position, Quaternion.identity);
+        if (monsterType.Prefab == null)
+        {
+            Debug.LogError("Monster Type has no Prefab set yet!");
+            return;
+        }
+        GameObject monsterObj = Instantiate(monsterType.Prefab, _pathWaypoints[0].position, Quaternion.identity);
         if (monsterObj.TryGetComponent<Monster>(out var monster))
         {
             monster.Initialize(_tdManager, _camera, _pathWaypoints);
@@ -96,7 +100,7 @@ public partial class WaveManager : MonoBehaviour
         foreach (WaveConfig.MonsterSpawnData spawnData in waveConfig.MonsterSpawns)
         {
             // spawn the monster prefab
-            SpawnMonster(spawnData.MonsterPrefab);
+            SpawnMonster(spawnData.MonsterType);
             yield return new WaitForSeconds(spawnData.SpawnTime);
         }
     }

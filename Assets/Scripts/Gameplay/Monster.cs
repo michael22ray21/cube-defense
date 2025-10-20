@@ -9,14 +9,9 @@ public class Monster : MonoBehaviour
     [SerializeField] private bool _showDebug = false;
 
     [Title("References")]
-    // [SerializeField] private GameObject _healthBarPrefab;
+    [SerializeField] private MonsterType _monsterType;
     [SerializeField] private Canvas _canvas;
     [SerializeField] private GameObject _healthBar;
-
-    [Title("Parameters")]
-    [SerializeField] private float _moveSpeed = 2f;
-    [SerializeField] private int _maxHealth = 100;
-    [SerializeField] private int _moneyReward = 10;
 
     private TDManager _tdManager;
     private bool _healthBarShown = false;
@@ -24,8 +19,9 @@ public class Monster : MonoBehaviour
     private Transform[] _pathPoints; // these path points are to direct the monster movements
     private int _currentPathIndex = 0;
 
+    public int MaxHealth => _monsterType.MaxHealth;
     public int CurrentHealth => _currentHealth;
-    public int MaxHealth => _maxHealth;
+    public MonsterType MonsterType => _monsterType;
 
     public Action OnTakeDamage;
     public Action OnDeath;
@@ -35,8 +31,9 @@ public class Monster : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        SetCurrentHealth();
         CheckTDManager();
+        CheckMonsterType();
+        ApplyMonsterTypeProperties();
     }
 
     public void Initialize(TDManager tdManager, Camera camera, Transform[] pathPoints)
@@ -62,17 +59,29 @@ public class Monster : MonoBehaviour
     #endregion
 
     #region Utilities
-    private void SetCurrentHealth()
-    {
-        _currentHealth = _maxHealth;
-    }
-
     private void CheckTDManager()
     {
         if (_tdManager == null)
         {
             _tdManager = FindFirstObjectByType<TDManager>();
         }
+    }
+
+    private void CheckMonsterType()
+    {
+        if (_monsterType == null)
+        {
+            Debug.LogError("[ERR] Monster Type not assigned!");
+        }
+    }
+
+    private void ApplyMonsterTypeProperties()
+    {
+        _currentHealth = _monsterType.MaxHealth;
+        // Set scale
+        transform.localScale = Vector3.one * _monsterType.Scale;
+
+        if (_showDebug) Debug.Log($"Monster spawned: {_monsterType.MonsterName} (Health: {_monsterType.MaxHealth}, Speed: {_monsterType.MoveSpeed}, Armor: {_monsterType.Armor})");
     }
 
     private void MoveAlongPath()
@@ -86,8 +95,8 @@ public class Monster : MonoBehaviour
         Transform targetPoint = _pathPoints[_currentPathIndex];
         Vector3 direction = (targetPoint.position - transform.position).normalized;
 
-        // Vector3.MoveTowards
-        transform.position += _moveSpeed * Time.deltaTime * direction;
+        // Vector3.MoveTowards(transform.position, targetPoint.position, _monsterType.MoveSpeed); ;
+        transform.position += _monsterType.MoveSpeed * Time.deltaTime * direction;
 
         // Check if we reached the current waypoint
         if (Vector3.Distance(transform.position, targetPoint.position) < 0.1f)
@@ -98,7 +107,8 @@ public class Monster : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        _currentHealth -= damage;
+        int actualDamage = Mathf.Max(1, damage - _monsterType.Armor);
+        _currentHealth -= actualDamage;
 
         if (!_healthBarShown && _healthBar != null)
         {
@@ -120,7 +130,7 @@ public class Monster : MonoBehaviour
         if (_showDebug) Debug.Log("Monster died! Cha-ching!");
 
         // reward money
-        _tdManager.MoneyManager.AddMoney(_moneyReward);
+        _tdManager.MoneyManager.AddMoney(_monsterType.MoneyReward);
 
         // notify the wave manager, the monster has died
         _tdManager.WaveManager.OnMonsterDead();

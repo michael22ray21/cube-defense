@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 1131375010704220226}
   - component: {fileID: 5157943801866509608}
   m_Layer: 6
-  m_Name: p_BasicMonster
+  m_Name: p_monster_Basic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,11 +228,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c7b953029f7416cb3b1be7b8e030bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
+  _showDebug: 0
+  _monsterType: {fileID: 11400000, guid: 28eaff23afddd404f88ca0e5252a9c5d, type: 2}
   _canvas: {fileID: 5308430620749958938}
   _healthBar: {fileID: 6359509211127237179}
-  _moveSpeed: 2
-  _maxHealth: 100
-  _moneyReward: 10
 --- !u!1 &1742966558703132075
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +501,7 @@ GameObject:
   - component: {fileID: 8524045685850164463}
   - component: {fileID: 1494196426268898241}
   m_Layer: 6
-  m_Name: Canvas
+  m_Name: HealthBarObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -605,6 +604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1bf03372fbea4fb0bb1463830b8f8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthBar
+  _showDebug: 0
   _hpImage: {fileID: 280440096836102321}
   _effectImage: {fileID: 297679780991222237}
   _hurtSpeed: 0.001

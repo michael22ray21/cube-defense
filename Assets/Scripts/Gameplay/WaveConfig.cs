@@ -14,10 +14,10 @@ public class WaveConfig
     [Serializable]
     public class MonsterSpawnData
     {
-        [SerializeField] private GameObject _monsterPrefab;
+        [SerializeField] private MonsterType _monsterType;
         [SerializeField] private float _spawnTime;
 
-        public GameObject MonsterPrefab => _monsterPrefab;
+        public MonsterType MonsterType => _monsterType;
         public float SpawnTime => _spawnTime;
     }
     #endregion

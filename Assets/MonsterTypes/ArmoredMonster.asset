@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b18efff91064c4bae2363892352044, type: 3}
+  m_Name: ArmoredMonster
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterType
+  _monsterName: Armored Monster
+  _maxHealth: 150
+  _moveSpeed: 1.5
+  _moneyReward: 25
+  _prefab: {fileID: 1175904568329489074, guid: a2cfb3159a3ba43db9d272a8b98d46fc, type: 3}
+  _monsterColor: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 1}
+  _scale: 1.2
+  _armor: 5
