@@ -6,8 +6,8 @@ using UnityEngine;
 public partial class WaveManager : MonoBehaviour
 {
     #region Vars, Fields, Getters
-    [Title("Editor")]
-    [SerializeField] private bool _showDebug = false;
+    [Title("Parameters")]
+    [SerializeField] private float _timeBetweenWaves = 5f;
 
     [Title("References")]
     [SerializeField] private TDManager _tdManager;
@@ -15,8 +15,9 @@ public partial class WaveManager : MonoBehaviour
     [SerializeField] private Transform[] _pathWaypoints;
     [SerializeField] private WaveConfig[] _waveConfigs;
 
-    [Title("Parameters")]
-    [SerializeField] private float _timeBetweenWaves = 5f;
+    [Title("Editor")]
+    [SerializeField] private bool _showDebug = false;
+
 
     private int _currentWaveNumber = 0;
     private int _monstersAlive = 0;
@@ -38,7 +39,7 @@ public partial class WaveManager : MonoBehaviour
         StartCoroutine(WaveSequence());
     }
 
-    private void SpawnMonster(MonsterType monsterType)
+    private void SpawnMonster(MonsterData monsterType)
     {
         if (_pathWaypoints == null || _pathWaypoints.Length == 0)
         {
@@ -100,7 +101,7 @@ public partial class WaveManager : MonoBehaviour
         foreach (WaveConfig.MonsterSpawnData spawnData in waveConfig.MonsterSpawns)
         {
             // spawn the monster prefab
-            SpawnMonster(spawnData.MonsterType);
+            SpawnMonster(spawnData.MonsterData);
             yield return new WaitForSeconds(spawnData.SpawnTime);
         }
     }

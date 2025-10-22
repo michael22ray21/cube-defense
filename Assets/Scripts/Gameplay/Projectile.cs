@@ -4,11 +4,11 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     #region Vars, Fields, Getters
-    [Title("References")]
-    [SerializeField] private GameObject _impactEffectPrefab;
-
     [Title("Parameters")]
     [SerializeField] private float _speed = 10f;
+
+    [Title("References")]
+    [SerializeField] private GameObject _impactEffectPrefab;
 
     private Monster _target;
     private int _damage;

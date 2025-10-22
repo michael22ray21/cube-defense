@@ -5,18 +5,16 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     #region Vars, Fields, Getters
-    [Title("Editor")]
-    [SerializeField] private bool _showDebug = false;
+    [Title("Parameters")]
+    [SerializeField] private float _hurtVisualTime = 1f;
+    // [SerializeField] private float _hurtSpeed = 0.001f;
 
     [Title("References")]
     [SerializeField] private Image _hpImage;
     [SerializeField] private Image _effectImage;
 
-    [Title("Parameters")]
-    [SerializeField] private float _hurtSpeed = 0.001f;
-
     private Monster _monster;
-    // private Canvas _canvas
+    private float _hurtVisualVelocity = 0f;
     #endregion;
 
     #region Behavior
@@ -26,13 +24,11 @@ public class HealthBar : MonoBehaviour
         // check for image components
         if (_hpImage == null)
         {
-            if (_showDebug) Debug.Log("Fill Image is not set! Finding component...");
-            _hpImage = GameObject.Find("HealthBar").GetComponent<Image>();
+            Debug.LogError("Fill Image is not set!");
         }
         if (_effectImage == null)
         {
-            if (_showDebug) Debug.Log("Effect Image is not set! Finding component...");
-            _effectImage = GameObject.Find("EffectFill").GetComponent<Image>();
+            Debug.LogError("Effect Image is not set!");
         }
         // _canvas = GetComponentInParent<Canvas>();
 
@@ -41,14 +37,12 @@ public class HealthBar : MonoBehaviour
 
     private void Update()
     {
-        if (_effectImage.fillAmount > _hpImage.fillAmount)
-        {
-            _effectImage.fillAmount -= _hurtSpeed;
-        }
-        else
-        {
-            _effectImage.fillAmount = _hpImage.fillAmount;
-        }
+        HandleHurtVisual();
+    }
+
+    private void HandleHurtVisual()
+    {
+        _effectImage.fillAmount = Mathf.SmoothDamp(_effectImage.fillAmount, _hpImage.fillAmount, ref _hurtVisualVelocity, _hurtVisualTime);
     }
     #endregion
 

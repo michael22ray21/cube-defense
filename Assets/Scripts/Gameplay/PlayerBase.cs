@@ -5,11 +5,12 @@ using UnityEngine;
 public class PlayerBase : MonoBehaviour
 {
     #region Vars, Fields, Getters
+    [Title("Parameters")]
+    [SerializeField] private int _maxHealth = 3;
+
     [Title("Editor")]
     [SerializeField] private bool _showDebug = false;
 
-    [Title("Parameters")]
-    [SerializeField] private int _maxHealth = 3;
     private int _currentHealth;
 
     public int CurrentHealth => _currentHealth;

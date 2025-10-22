@@ -5,9 +5,6 @@ using UnityEngine;
 public class TowerType : ScriptableObject
 {
     #region Vars, Fields, Getters
-    [Title("References")]
-    [SerializeField] private GameObject _prefab;
-
     [Title("Parameters")]
     [SerializeField] private string _towerName;
     [SerializeField] private int _cost = 50;
@@ -15,6 +12,9 @@ public class TowerType : ScriptableObject
     [SerializeField] private float _range = 5f;
     [SerializeField] private int _damage = 25;
     [SerializeField] private Color _towerColor = Color.white;
+
+    [Title("References")]
+    [SerializeField] private GameObject _prefab;
 
     public string TowerName => _towerName;
     public int Cost => _cost;

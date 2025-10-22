@@ -8,13 +8,13 @@ public class TDManager : MonoBehaviour
     // the instance of this class - This should be the ONLY instance
     private static TDManager _instance;
 
-    [Title("Editor")]
-    [SerializeField] private bool _showDebug = false;
-
     [Title("References")]
     [SerializeField] private MoneyManager _moneyManager;
     [SerializeField] private WaveManager _waveManager;
     [SerializeField] private PlayerBase _playerBase;
+
+    [Title("Editor")]
+    [SerializeField] private bool _showDebug = false;
 
     public MoneyManager MoneyManager => _moneyManager;
     public WaveManager WaveManager => _waveManager;
@@ -62,14 +62,14 @@ public class TDManager : MonoBehaviour
             Debug.LogError("[ERROR] No instance(s) of required managers!");
         }
     }
-    #endregion
 
-    #region Utilities
     private void StartWaves()
     {
         _waveManager.StartWaves();
     }
+    #endregion
 
+    #region Utilities
     private void StopGame()
     {
         Time.timeScale = 0f; // pause the game

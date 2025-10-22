@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: p_monster_Heavy
       objectReference: {fileID: 0}
+    - target: {fileID: 1494196426268898241, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
+      propertyPath: _hurtVisualTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5092247647152236922, guid: b267f26cc2fa040babff0c196615c5a3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 

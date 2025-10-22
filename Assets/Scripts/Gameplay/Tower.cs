@@ -4,13 +4,13 @@ using UnityEngine;
 public class Tower : MonoBehaviour
 {
     #region Vars, Fields, Getters
-    [Title("Editor")]
-    [SerializeField] private bool _showDebug = false;
-
     [Title("References")]
     [SerializeField] private TowerType _towerType;
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private Transform _projectileSpawnPoint;
+
+    [Title("Editor")]
+    [SerializeField] private bool _showDebug = false;
 
     private float _fireRate; // Shots per second
     private float _range;

@@ -1,17 +1,21 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Monster Type", menuName = "Tower Defense/Monster Type")]
-public class MonsterType : ScriptableObject
+public class MonsterData : ScriptableObject
 {
     #region Vars, Fields, Getters
+    [Title("Parameters")]
     [SerializeField] private string _monsterName;
     [SerializeField] private int _maxHealth = 100;
     [SerializeField] private float _moveSpeed = 2f;
     [SerializeField] private int _moneyReward = 10;
-    [SerializeField] private GameObject _prefab;
     [SerializeField] private Color _monsterColor = Color.white;
     [SerializeField] private float _scale = 1f;
     [SerializeField] private int _armor = 0; // Reduces damage taken
+
+    [Title("References")]
+    [SerializeField] private GameObject _prefab;
 
     public string MonsterName => _monsterName;
     public int MaxHealth => _maxHealth;

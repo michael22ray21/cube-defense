@@ -5,13 +5,13 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     #region Vars, Fields, Getters
-    [Title("Editor")]
-    [SerializeField] private bool _showDebug = false;
-
     [Title("References")]
-    [SerializeField] private MonsterType _monsterType;
+    [SerializeField] private MonsterData _monsterType;
     [SerializeField] private Canvas _canvas;
     [SerializeField] private GameObject _healthBar;
+
+    [Title("Editor")]
+    [SerializeField] private bool _showDebug = false;
 
     private TDManager _tdManager;
     private bool _healthBarShown = false;
@@ -21,7 +21,7 @@ public class Monster : MonoBehaviour
 
     public int MaxHealth => _monsterType.MaxHealth;
     public int CurrentHealth => _currentHealth;
-    public MonsterType MonsterType => _monsterType;
+    public MonsterData MonsterData => _monsterType;
 
     public Action OnTakeDamage;
     public Action OnDeath;
@@ -32,8 +32,8 @@ public class Monster : MonoBehaviour
     private void Start()
     {
         CheckTDManager();
-        CheckMonsterType();
-        ApplyMonsterTypeProperties();
+        CheckMonsterData();
+        ApplyMonsterDataProperties();
     }
 
     public void Initialize(TDManager tdManager, Camera camera, Transform[] pathPoints)
@@ -56,9 +56,7 @@ public class Monster : MonoBehaviour
 
         MoveAlongPath();
     }
-    #endregion
 
-    #region Utilities
     private void CheckTDManager()
     {
         if (_tdManager == null)
@@ -67,7 +65,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    private void CheckMonsterType()
+    private void CheckMonsterData()
     {
         if (_monsterType == null)
         {
@@ -75,7 +73,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    private void ApplyMonsterTypeProperties()
+    private void ApplyMonsterDataProperties()
     {
         _currentHealth = _monsterType.MaxHealth;
         // Set scale
@@ -104,7 +102,9 @@ public class Monster : MonoBehaviour
             _currentPathIndex++;
         }
     }
+    #endregion
 
+    #region Utilities
     public void TakeDamage(int damage)
     {
         int actualDamage = Mathf.Max(1, damage - _monsterType.Armor);

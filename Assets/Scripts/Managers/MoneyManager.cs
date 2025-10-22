@@ -5,11 +5,12 @@ using UnityEngine;
 public class MoneyManager : MonoBehaviour
 {
     #region Vars, Fields, Getters
+    [Title("Parameters")]
+    [SerializeField] private int _startingMoney = 50;
+
     [Title("Editor")]
     [SerializeField] private bool _showDebug = false;
 
-    [Title("Parameters")]
-    [SerializeField] private int _startingMoney = 50;
     private int _currentMoney;
 
     public int CurrentMoney => _currentMoney;

@@ -5,17 +5,17 @@ using UnityEngine;
 public class TowerSpot : MonoBehaviour
 {
     #region Vars, Fields, Getters
-    [Title("Editor")]
-    [SerializeField] private bool _showDebug = false;
+    [Title("Parameters")]
+    [SerializeField] private int _towerCost = 50;
+    [SerializeField] private int _selectedTowerTypeIndex = 0;
 
     [Title("References")]
     [SerializeField] private TDManager _tdManager;
     [SerializeField] private Renderer _renderer;
     [SerializeField] private TowerType[] _availableTowerTypes;
 
-    [Title("Parameters")]
-    [SerializeField] private int _towerCost = 50;
-    [SerializeField] private int _selectedTowerTypeIndex = 0;
+    [Title("Editor")]
+    [SerializeField] private bool _showDebug = false;
 
     private bool _isOccupied = false;
     private bool _isHovering = false;
