@@ -10,6 +10,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
     private string lastNoteName = "";
     private DevNote lastSelectedNote = null;
     private bool pendingRebuild = false;
+    private bool isEditing = false;
 
     [MenuItem("Dinotonte/Dev Notes")]
     private static void OpenWindow()
@@ -105,7 +106,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
 
             if (note != null)
             {
-                tree.Add(note.key, note, EditorIcons.File);
+                tree.Add(note.key, isEditing ? note : new ViewDevNote(note), EditorIcons.File);
             }
         }
     }
@@ -123,25 +124,50 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
         var selected = MenuTree.Selection.FirstOrDefault();
         if (selected == null) return null;
 
-        var selectedNote = selected.Value as DevNote;
-        if (selectedNote == null) return null;
+        if (isEditing)
+        {
+            if (selected.Value is not DevNote selectedNote) return null;
+            return selectedNote;
+        }
+        else
+        {
+            if (selected.Value is not ViewDevNote selectedViewNote) return null;
+            return selectedViewNote.DevNote;
+        }
 
-        return selectedNote;
     }
 
     private void CreateToolbar(DevNote selectedNote)
     {
         SirenixEditorGUI.BeginHorizontalToolbar();
         {
-            GUILayout.Label("Editing: " + selectedNote.name, SirenixGUIStyles.BoldLabel);
-
-            GUILayout.FlexibleSpace();
-
-            // save button (refresh)
-            if (SirenixEditorGUI.ToolbarButton(EditorIcons.Refresh))
+            if (isEditing)
             {
-                AssetDatabase.SaveAssets();
-                ForceMenuTreeRebuild();
+                GUILayout.Label("Editing: " + selectedNote.name, SirenixGUIStyles.BoldLabel);
+
+                GUILayout.FlexibleSpace();
+
+                // save button (refresh)
+                if (SirenixEditorGUI.ToolbarButton(EditorIcons.Refresh))
+                {
+                    isEditing = false;
+                    AssetDatabase.SaveAssets();
+                    ForceMenuTreeRebuild();
+                }
+            }
+            else
+            {
+                GUILayout.Label("Viewing: " + selectedNote.name, SirenixGUIStyles.BoldLabel);
+
+                GUILayout.FlexibleSpace();
+
+                // edit button (pen)
+                if (SirenixEditorGUI.ToolbarButton(EditorIcons.Pen))
+                {
+                    isEditing = true;
+                    AssetDatabase.SaveAssets();
+                    ForceMenuTreeRebuild();
+                }
             }
 
             // delete button (X)
