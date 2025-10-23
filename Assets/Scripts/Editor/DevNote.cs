@@ -6,7 +6,7 @@ public class DevNote : ScriptableObject
 {
     #region Vars, Fields, Getters
     [Title("Note Information")]
-    [LabelText("Note Name")]
+    [LabelText("Note Key")]
     public string key = "New Note";
 
     [Space(8)]

@@ -6,19 +6,20 @@ using UnityEngine;
 
 public partial class DevNotesWindow : OdinMenuEditorWindow
 {
+    #region Vars, Fields, Getters
     private const string NOTES_PATH = "Assets/DataObjects/Editor/DevNotesWindow";
     private string lastNoteName = "";
     private DevNote lastSelectedNote = null;
-    private bool pendingRebuild = false;
     private bool isEditing = false;
+    #endregion
 
+    #region Behavior
     [MenuItem("Dinotonte/Dev Notes")]
     private static void OpenWindow()
     {
         GetWindow<DevNotesWindow>().Show();
     }
 
-    #region Behavior
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -103,17 +104,15 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             DevNote note = AssetDatabase.LoadAssetAtPath<DevNote>(path);
-
-            if (note != null)
-            {
-                tree.Add(note.key, isEditing ? note : new ViewDevNote(note), EditorIcons.File);
-            }
+            tree.Add(path[NOTES_PATH.Length..], isEditing ? note : new ViewDevNote(note), EditorIcons.File);
         }
+
+        tree.EnumerateTree().AddThumbnailIcons();
     }
 
     protected override void OnBeginDrawEditors()
     {
-        var selectedNote = GetSelectedNote();
+        if (GetSelectedNote() is not DevNote selectedNote) return;
 
         // Make a toolbar on the top
         CreateToolbar(selectedNote);
@@ -134,7 +133,6 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
             if (selected.Value is not ViewDevNote selectedViewNote) return null;
             return selectedViewNote.DevNote;
         }
-
     }
 
     private void CreateToolbar(DevNote selectedNote)
@@ -152,7 +150,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
                 {
                     isEditing = false;
                     AssetDatabase.SaveAssets();
-                    ForceMenuTreeRebuild();
+                    RenameNoteAsset(selectedNote);
                 }
             }
             else
@@ -165,7 +163,6 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
                 if (SirenixEditorGUI.ToolbarButton(EditorIcons.Pen))
                 {
                     isEditing = true;
-                    AssetDatabase.SaveAssets();
                     ForceMenuTreeRebuild();
                 }
             }
@@ -189,7 +186,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
 
     protected override void OnEndDrawEditors()
     {
-        var selectedNote = GetSelectedNote();
+        if (GetSelectedNote() is not DevNote selectedNote) return;
 
         // Check if user switched to a different note
         if (CheckLastNoteForRename(selectedNote)) return;
@@ -202,9 +199,6 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
 
         // Check if focus changed and name is different
         RenameOnFocusChange(selectedNote);
-
-        // If there's a pending rebuild and no text field is focused => rebuild
-        DoPendingChanges(selectedNote);
     }
 
     private bool CheckLastNoteForRename(DevNote selectedNote)
@@ -230,7 +224,6 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
     {
         Event e = Event.current;
 
-        //TODO not working yet
         // If user pressed Enter or Tab, apply the rename
         if (e.type == EventType.KeyDown && (e.keyCode == KeyCode.Return || e.keyCode == KeyCode.KeypadEnter || e.keyCode == KeyCode.Tab))
         {
@@ -242,29 +235,15 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
         }
     }
 
-    // If there's a pending rebuild and no text field is focused => rebuild
-    private void DoPendingChanges(DevNote selectedNote)
-    {
-        string currentFocus = GUI.GetNameOfFocusedControl();
-        if (pendingRebuild && currentFocus == "")
-        {
-            RenameNoteAsset(selectedNote);
-            ForceMenuTreeRebuild();
-            pendingRebuild = false;
-        }
-    }
-
     private void RenameNoteAsset(DevNote note)
     {
         if (note.key == note.name) return;
 
         string path = AssetDatabase.GetAssetPath(note);
-        AssetDatabase.RenameAsset(path, note.key);
-        EditorUtility.SetDirty(note);
-        AssetDatabase.SaveAssets();
-
-        // Don't rebuild immediately, mark it as pending
-        pendingRebuild = true;
+        string renameLog = AssetDatabase.RenameAsset(path, note.key);
+        if (renameLog.Length != 0) Debug.LogError($"[ERR] rename: \"{renameLog}\"");
+        AssetDatabase.Refresh();
+        ForceMenuTreeRebuild();
     }
     #endregion
 }

@@ -1,6 +1,5 @@
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
-using UnityEditor;
 using UnityEngine;
 
 // Helper class to create a new note
