@@ -16,12 +16,11 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
 
         [Space(8)]
         [Title("Content")]
-        [HideLabel]
-        [MultiLineProperty(12)]
         [DisplayAsString(false)]
-        public string notes;
+        public SubNote[] entries;
 
         private readonly DevNote _devNote;
+        // private bool viewMode = false;
         public DevNote DevNote => _devNote;
         #endregion
 
@@ -29,7 +28,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
         public ViewDevNote(DevNote note)
         {
             key = note.key;
-            notes = note.notes;
+            entries = note.entries;
             _devNote = note;
         }
         #endregion

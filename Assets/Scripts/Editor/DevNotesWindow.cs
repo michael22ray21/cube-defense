@@ -104,16 +104,14 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             DevNote note = AssetDatabase.LoadAssetAtPath<DevNote>(path);
-            tree.Add(path[NOTES_PATH.Length..], isEditing ? note : new ViewDevNote(note), EditorIcons.File);
+            note.ViewMode = true;
+            tree.Add(path[NOTES_PATH.Length..].Split('.')[0], note, EditorIcons.File);
         }
-
-        tree.EnumerateTree().AddThumbnailIcons();
     }
 
     protected override void OnBeginDrawEditors()
     {
         if (GetSelectedNote() is not DevNote selectedNote) return;
-
         // Make a toolbar on the top
         CreateToolbar(selectedNote);
     }
@@ -123,16 +121,16 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
         var selected = MenuTree.Selection.FirstOrDefault();
         if (selected == null) return null;
 
-        if (isEditing)
-        {
-            if (selected.Value is not DevNote selectedNote) return null;
-            return selectedNote;
-        }
-        else
-        {
-            if (selected.Value is not ViewDevNote selectedViewNote) return null;
-            return selectedViewNote.DevNote;
-        }
+        // if (isEditing)
+        // {
+        if (selected.Value is not DevNote selectedNote) return null;
+        return selectedNote;
+        // }
+        // else
+        // {
+        // if (selected.Value is not ViewDevNote selectedViewNote) return null;
+        // return selectedViewNote.DevNote;
+        // }
     }
 
     private void CreateToolbar(DevNote selectedNote)
@@ -149,8 +147,10 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
                 if (SirenixEditorGUI.ToolbarButton(EditorIcons.Refresh))
                 {
                     isEditing = false;
+                    selectedNote.ViewMode = true;
                     AssetDatabase.SaveAssets();
                     RenameNoteAsset(selectedNote);
+                    ForceMenuTreeRebuild();
                 }
             }
             else
@@ -163,6 +163,8 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
                 if (SirenixEditorGUI.ToolbarButton(EditorIcons.Pen))
                 {
                     isEditing = true;
+                    selectedNote.ViewMode = false;
+                    AssetDatabase.SaveAssets();
                     ForceMenuTreeRebuild();
                 }
             }
@@ -239,6 +241,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
     {
         if (note.key == note.name) return;
 
+        note.ParseEntries();
         string path = AssetDatabase.GetAssetPath(note);
         string renameLog = AssetDatabase.RenameAsset(path, note.key);
         if (renameLog.Length != 0) Debug.LogError($"[ERR] rename: \"{renameLog}\"");
