@@ -1,5 +1,6 @@
 using System.Linq;
 using Sirenix.OdinInspector.Editor;
+using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -11,6 +12,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
     private string lastNoteName = "";
     private DevNote lastSelectedNote = null;
     private bool isEditing = false;
+    private Vector2 scrollPosition;
     #endregion
 
     #region Behavior
@@ -104,7 +106,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             DevNote note = AssetDatabase.LoadAssetAtPath<DevNote>(path);
-            tree.Add(path[NOTES_PATH.Length..], isEditing ? note : new ViewDevNote(note), EditorIcons.File);
+            tree.Add(path[NOTES_PATH.Length..].Split('.')[0], note, EditorIcons.File);
         }
 
         tree.EnumerateTree().AddThumbnailIcons();
@@ -123,42 +125,39 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
         var selected = MenuTree.Selection.FirstOrDefault();
         if (selected == null) return null;
 
-        if (isEditing)
-        {
-            if (selected.Value is not DevNote selectedNote) return null;
-            return selectedNote;
-        }
-        else
-        {
-            if (selected.Value is not ViewDevNote selectedViewNote) return null;
-            return selectedViewNote.DevNote;
-        }
+        // if (isEditing)
+        // {
+        if (selected.Value is not DevNote selectedNote) return null;
+        return selectedNote;
+        // }
+        // else
+        // {
+        //     if (selected.Value is not ViewDevNote selectedViewNote) return null;
+        //     return selectedViewNote.DevNote;
+        // }
     }
 
     private void CreateToolbar(DevNote selectedNote)
     {
         SirenixEditorGUI.BeginHorizontalToolbar();
         {
+            string modeText = isEditing ? "Editing: " : "Viewing: ";
+            GUILayout.Label(modeText + selectedNote.name, SirenixGUIStyles.BoldLabel);
+            GUILayout.FlexibleSpace();
+
             if (isEditing)
             {
-                GUILayout.Label("Editing: " + selectedNote.name, SirenixGUIStyles.BoldLabel);
-
-                GUILayout.FlexibleSpace();
-
                 // save button (refresh)
                 if (SirenixEditorGUI.ToolbarButton(EditorIcons.Refresh))
                 {
                     isEditing = false;
                     AssetDatabase.SaveAssets();
                     RenameNoteAsset(selectedNote);
+                    ForceMenuTreeRebuild();
                 }
             }
             else
             {
-                GUILayout.Label("Viewing: " + selectedNote.name, SirenixGUIStyles.BoldLabel);
-
-                GUILayout.FlexibleSpace();
-
                 // edit button (pen)
                 if (SirenixEditorGUI.ToolbarButton(EditorIcons.Pen))
                 {
@@ -166,6 +165,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
                     ForceMenuTreeRebuild();
                 }
             }
+            selectedNote.Show = isEditing;
 
             // delete button (X)
             if (SirenixEditorGUI.ToolbarButton(EditorIcons.X))
@@ -182,10 +182,70 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
             }
         }
         SirenixEditorGUI.EndHorizontalToolbar();
+
+        if (!isEditing)
+        {
+            DrawViewMode(selectedNote);
+        }
+    }
+
+    private void DrawViewMode(DevNote note)
+    {
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition);
+
+        if (note.subNote.Count == 0) GUILayout.Label("No contents...", new GUIStyle(EditorStyles.boldLabel) { fontSize = 16 });
+
+        foreach (var contentItem in note.subNote)
+        {
+            switch (contentItem.type)
+            {
+                case ContentType.Space:
+                    GUILayout.Space(20);
+                    break;
+
+                case ContentType.Title:
+                    GUILayout.Space(10);
+                    GUILayout.Label(contentItem.textValue, new GUIStyle(EditorStyles.boldLabel)
+                    {
+                        fontSize = 16,
+                        wordWrap = true
+                    });
+                    GUILayout.Space(5);
+                    break;
+
+                case ContentType.Text:
+                    GUILayout.Label(contentItem.textValue, new GUIStyle(EditorStyles.label)
+                    {
+                        wordWrap = true,
+                        richText = true
+                    });
+                    GUILayout.Space(5);
+                    break;
+
+                case ContentType.Image:
+                    if (contentItem.imageValue != null)
+                    {
+                        GUILayout.Space(5);
+                        float maxWidth = position.width - 40;
+                        float aspectRatio = (float)contentItem.imageValue.height / contentItem.imageValue.width;
+                        float imageWidth = Mathf.Min(contentItem.imageValue.width, maxWidth);
+                        float imageHeight = imageWidth * aspectRatio;
+
+                        Rect imageRect = GUILayoutUtility.GetRect(imageWidth, imageHeight);
+                        GUI.DrawTexture(imageRect, contentItem.imageValue, ScaleMode.ScaleToFit);
+                        GUILayout.Space(5);
+                    }
+                    break;
+            }
+        }
+
+        GUILayout.EndScrollView();
     }
 
     protected override void OnEndDrawEditors()
     {
+        if (!isEditing) return;
+
         if (GetSelectedNote() is not DevNote selectedNote) return;
 
         // Check if user switched to a different note

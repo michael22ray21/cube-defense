@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -7,12 +8,20 @@ public class DevNote : ScriptableObject
     #region Vars, Fields, Getters
     [Title("Note Information")]
     [LabelText("Note Key")]
+    [ShowIf("_show")]
     public string key = "New Note";
 
     [Space(8)]
     [Title("Content")]
     [HideLabel]
-    [MultiLineProperty(12)]
-    public string notes = "Enter your note here...";
+    [ShowIf("_show")]
+    public List<SubNote> subNote = new();
+
+    private bool _show = false;
+    public bool Show
+    {
+        get { return _show; }
+        set { _show = value; }
+    }
     #endregion
 }
