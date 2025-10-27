@@ -10,7 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae7f6678b11a341608c914236eccfcd6, type: 3}
-  m_Name: New Note
-  m_EditorClassIdentifier: Assembly-CSharp-Editor::DevNotes
-  key: brand new key
-  notes: this new note, will be updated when focus has changed
+  m_Name: BUGS
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::DevNote
+  key: BUGS
+  subNote:
+  - type: 1
+    textValue: The towers have a bug, they are UGLY, lololol, we need to create new
+      assets for it.
+    imageValue: {fileID: 0}

@@ -304,6 +304,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
         if (renameLog.Length != 0) Debug.LogError($"[ERR] rename: \"{renameLog}\"");
         AssetDatabase.Refresh();
         ForceMenuTreeRebuild();
+        TrySelectMenuItemWithObject(note);
     }
     #endregion
 }
