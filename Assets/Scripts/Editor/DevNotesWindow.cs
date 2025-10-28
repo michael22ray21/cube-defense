@@ -76,7 +76,6 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
 
     private void AddCreateNewNoteButton(OdinMenuTree tree)
     {
-        // TODO: change this to actually create a new one upon click, not show a menu with another button
         tree.Add("Create New Note", new CreateNoteButton(this), EditorIcons.Plus);
     }
 
@@ -197,7 +196,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
 
         foreach (var contentItem in note.subNote)
         {
-            switch (contentItem.type)
+            switch (contentItem.Type)
             {
                 case ContentType.Space:
                     GUILayout.Space(20);
@@ -205,7 +204,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
 
                 case ContentType.Title:
                     GUILayout.Space(10);
-                    GUILayout.Label(contentItem.textValue, new GUIStyle(EditorStyles.boldLabel)
+                    GUILayout.Label(contentItem.TextValue, new GUIStyle(EditorStyles.boldLabel)
                     {
                         fontSize = 16,
                         wordWrap = true
@@ -214,7 +213,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
                     break;
 
                 case ContentType.Text:
-                    GUILayout.Label(contentItem.textValue, new GUIStyle(EditorStyles.label)
+                    GUILayout.Label(contentItem.TextValue, new GUIStyle(EditorStyles.label)
                     {
                         wordWrap = true,
                         richText = true
@@ -223,16 +222,16 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
                     break;
 
                 case ContentType.Image:
-                    if (contentItem.imageValue != null)
+                    if (contentItem.ImageValue != null)
                     {
                         GUILayout.Space(5);
                         float maxWidth = position.width - 40;
-                        float aspectRatio = (float)contentItem.imageValue.height / contentItem.imageValue.width;
-                        float imageWidth = Mathf.Min(contentItem.imageValue.width, maxWidth);
+                        float aspectRatio = (float)contentItem.ImageValue.height / contentItem.ImageValue.width;
+                        float imageWidth = Mathf.Min(contentItem.ImageValue.width, maxWidth);
                         float imageHeight = imageWidth * aspectRatio;
 
                         Rect imageRect = GUILayoutUtility.GetRect(imageWidth, imageHeight);
-                        GUI.DrawTexture(imageRect, contentItem.imageValue, ScaleMode.ScaleToFit);
+                        GUI.DrawTexture(imageRect, contentItem.ImageValue, ScaleMode.ScaleToFit);
                         GUILayout.Space(5);
                     }
                     break;
