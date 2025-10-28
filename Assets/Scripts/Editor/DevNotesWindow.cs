@@ -1,6 +1,6 @@
+using System.IO;
 using System.Linq;
 using Sirenix.OdinInspector.Editor;
-using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -10,9 +10,11 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
     #region Vars, Fields, Getters
     private const string NOTES_PATH = "Assets/DataObjects/Editor/DevNotesWindow";
     private string lastNoteName = "";
+    private string moveTargetPath = "";
     private DevNote lastSelectedNote = null;
-    private bool isEditing = false;
     private Vector2 scrollPosition;
+    private bool isEditing = false;
+    private bool showMoveDialog = false;
     #endregion
 
     #region Behavior
@@ -124,16 +126,8 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
         var selected = MenuTree.Selection.FirstOrDefault();
         if (selected == null) return null;
 
-        // if (isEditing)
-        // {
         if (selected.Value is not DevNote selectedNote) return null;
         return selectedNote;
-        // }
-        // else
-        // {
-        //     if (selected.Value is not ViewDevNote selectedViewNote) return null;
-        //     return selectedViewNote.DevNote;
-        // }
     }
 
     private void CreateToolbar(DevNote selectedNote)
@@ -144,10 +138,23 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
             GUILayout.Label(modeText + selectedNote.name, SirenixGUIStyles.BoldLabel);
             GUILayout.FlexibleSpace();
 
+            // Move note button (arrow)
+            if (SirenixEditorGUI.ToolbarButton(new GUIContent(EditorIcons.ArrowRight.Active, "Move Note")))
+            {
+                showMoveDialog = !showMoveDialog;
+                if (showMoveDialog)
+                {
+                    // Initialize with current path
+                    string assetPath = AssetDatabase.GetAssetPath(selectedNote);
+                    string directory = Path.GetDirectoryName(assetPath).Replace("\\", "/");
+                    moveTargetPath = directory.Replace(NOTES_PATH, "").TrimStart('/');
+                }
+            }
+
             if (isEditing)
             {
                 // save button (refresh)
-                if (SirenixEditorGUI.ToolbarButton(EditorIcons.Refresh))
+                if (SirenixEditorGUI.ToolbarButton(new GUIContent(EditorIcons.Refresh.Active, "Save")))
                 {
                     isEditing = false;
                     AssetDatabase.SaveAssets();
@@ -158,7 +165,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
             else
             {
                 // edit button (pen)
-                if (SirenixEditorGUI.ToolbarButton(EditorIcons.Pen))
+                if (SirenixEditorGUI.ToolbarButton(new GUIContent(EditorIcons.Pen.Active, "Edit")))
                 {
                     isEditing = true;
                     ForceMenuTreeRebuild();
@@ -167,7 +174,7 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
             selectedNote.Show = isEditing;
 
             // delete button (X)
-            if (SirenixEditorGUI.ToolbarButton(EditorIcons.X))
+            if (SirenixEditorGUI.ToolbarButton(new GUIContent(EditorIcons.X.Active, "Delete")))
             {
                 if (EditorUtility.DisplayDialog("Delete Note",
                     $"Are you sure you want to delete '{selectedNote.name}'?",
@@ -182,9 +189,149 @@ public partial class DevNotesWindow : OdinMenuEditorWindow
         }
         SirenixEditorGUI.EndHorizontalToolbar();
 
-        if (!isEditing)
+        // Show move dialog if active
+        if (showMoveDialog)
+        {
+            DrawMoveDialog(selectedNote);
+        }
+
+        // If in view mode, draw custom content view
+        if (!isEditing && !showMoveDialog)
         {
             DrawViewMode(selectedNote);
+        }
+    }
+
+    private void DrawMoveDialog(DevNote note)
+    {
+        SirenixEditorGUI.BeginBox("Move Note");
+
+        GUILayout.Space(10);
+
+        EditorGUILayout.LabelField("Current Location:", GetCurrentNotePath(note));
+
+        GUILayout.Space(10);
+
+        // Path selector
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Target Path:", GUILayout.Width(80));
+
+        // Create a dropdown with existing paths
+        if (EditorGUILayout.DropdownButton(new GUIContent(string.IsNullOrEmpty(moveTargetPath) ? "(Root)" : moveTargetPath), FocusType.Keyboard))
+        {
+            GenericMenu menu = new();
+
+            // Add root option
+            menu.AddItem(new GUIContent("(Root)"), moveTargetPath == "", () => { moveTargetPath = ""; });
+
+            // Add existing paths
+            if (Directory.Exists(NOTES_PATH))
+            {
+                string[] directories = Directory.GetDirectories(NOTES_PATH, "*", SearchOption.AllDirectories);
+                foreach (string dir in directories)
+                {
+                    string relativePath = dir.Replace(NOTES_PATH, "").Replace("\\", "/").TrimStart('/');
+                    menu.AddItem(new GUIContent(relativePath), moveTargetPath == relativePath, () => { moveTargetPath = relativePath; });
+                }
+            }
+
+            menu.AddSeparator("");
+            menu.AddItem(new GUIContent("Create New Path..."), false, () => { moveTargetPath = ""; });
+
+            menu.ShowAsContext();
+        }
+        EditorGUILayout.EndHorizontal();
+
+        // Text field for custom path
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Or type path:", GUILayout.Width(80));
+        moveTargetPath = EditorGUILayout.TextField(moveTargetPath);
+        EditorGUILayout.EndHorizontal();
+
+        GUILayout.Space(10);
+
+        // Check if path exists
+        string fullTargetPath = string.IsNullOrEmpty(moveTargetPath) ? NOTES_PATH : Path.Combine(NOTES_PATH, moveTargetPath);
+        bool pathExists = Directory.Exists(fullTargetPath);
+
+        if (!pathExists && !string.IsNullOrEmpty(moveTargetPath))
+        {
+            EditorGUILayout.HelpBox($"Path '{moveTargetPath}' does not exist. Click 'Create & Move' to create it.", MessageType.Warning);
+        }
+
+        GUILayout.Space(10);
+
+        // Action buttons
+        EditorGUILayout.BeginHorizontal();
+
+        GUI.backgroundColor = new Color(0.4f, 0.8f, 1f);
+        if (GUILayout.Button(pathExists ? "Move" : "Create & Move", GUILayout.Height(30)))
+        {
+            MoveNote(note, moveTargetPath, !pathExists);
+            showMoveDialog = false;
+        }
+        GUI.backgroundColor = Color.white;
+
+        if (GUILayout.Button("Cancel", GUILayout.Height(30)))
+        {
+            showMoveDialog = false;
+        }
+
+        EditorGUILayout.EndHorizontal();
+
+        GUILayout.Space(10);
+
+        SirenixEditorGUI.EndBox();
+    }
+
+    private string GetCurrentNotePath(DevNote note)
+    {
+        string assetPath = AssetDatabase.GetAssetPath(note);
+        string directory = Path.GetDirectoryName(assetPath).Replace("\\", "/");
+        string relativePath = directory.Replace(NOTES_PATH, "").TrimStart('/');
+        return string.IsNullOrEmpty(relativePath) ? "(Root)" : relativePath;
+    }
+
+    private void MoveNote(DevNote note, string targetPath, bool createPath)
+    {
+        string currentPath = AssetDatabase.GetAssetPath(note);
+        string fullTargetPath = string.IsNullOrEmpty(targetPath) ? NOTES_PATH : Path.Combine(NOTES_PATH, targetPath);
+
+        // Create path if needed
+        if (createPath && !string.IsNullOrEmpty(targetPath))
+        {
+            string[] folders = targetPath.Split('/');
+            string currentDir = NOTES_PATH;
+
+            foreach (string folder in folders)
+            {
+                if (string.IsNullOrEmpty(folder)) continue;
+
+                string newDir = currentDir + "/" + folder;
+                if (!AssetDatabase.IsValidFolder(newDir))
+                {
+                    AssetDatabase.CreateFolder(currentDir, folder);
+                }
+                currentDir = newDir;
+            }
+            AssetDatabase.Refresh();
+        }
+
+        // Move the asset
+        string fileName = Path.GetFileName(currentPath);
+        string newPath = Path.Combine(fullTargetPath, fileName).Replace("\\", "/");
+
+        string error = AssetDatabase.MoveAsset(currentPath, newPath);
+
+        if (string.IsNullOrEmpty(error))
+        {
+            AssetDatabase.SaveAssets();
+            ForceMenuTreeRebuild();
+            EditorUtility.DisplayDialog("Success", $"Moved '{note.name}' to {(string.IsNullOrEmpty(targetPath) ? "root" : targetPath)}", "OK");
+        }
+        else
+        {
+            EditorUtility.DisplayDialog("Error", $"Failed to move note: {error}", "OK");
         }
     }
 

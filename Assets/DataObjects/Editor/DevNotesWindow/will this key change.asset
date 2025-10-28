@@ -13,15 +13,4 @@ MonoBehaviour:
   m_Name: will this key change
   m_EditorClassIdentifier: Assembly-CSharp-Editor::DevNotes
   key: will this key change
-  subNote:
-  - type: 1
-    textValue: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla
-      feugiat ex, quis lacinia turpis lobortis a. Donec in ante eget nibh congue
-      egestas ut a nisl. Vivamus consectetur metus dolor, vitae ultrices nibh vulputate
-      fermentum. Donec ultrices erat at nulla gravida bibendum. Ut vitae odio magna.
-      Cras sollicitudin sed erat ac luctus. Pellentesque habitant morbi tristique
-      senectus et netus et malesuada fames ac turpis egestas. Duis erat purus, pretium
-      eu lacus eu, porttitor rutrum erat. Vestibulum convallis vitae nibh sit amet
-      tristique. Maecenas nec tellus ante. Morbi vehicula semper sapien. Vestibulum
-      sit amet tortor dapibus, fermentum orci vel, posuere erat.
-    imageValue: {fileID: 0}
+  subNote: []

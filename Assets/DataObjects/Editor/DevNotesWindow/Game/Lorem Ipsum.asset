@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp-Editor::DevNotes
   key: Lorem Ipsum
   subNote:
-  - type: 2
-    textValue: Lorem Ipsum
-    imageValue: {fileID: 0}
-  - type: 1
-    textValue: This is a note about lorem ipsum dolor sit amet.
-    imageValue: {fileID: 0}
-  - type: 3
-    textValue: 
-    imageValue: {fileID: 2800000, guid: 7477060d3854140efa015a9092739b78, type: 3}
+  - _type: 1
+    _textValue: Test
+    _imageValue: {fileID: 0}
+  - _type: 1
+    _textValue: New
+    _imageValue: {fileID: 0}
+  - _type: 1
+    _textValue: Content
+    _imageValue: {fileID: 0}

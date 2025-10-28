@@ -13,15 +13,4 @@ MonoBehaviour:
   m_Name: new change
   m_EditorClassIdentifier: Assembly-CSharp-Editor::DevNotes
   key: new change
-  subNote:
-  - type: 1
-    textValue: This one needs a title
-    imageValue: {fileID: 0}
-  - type: 2
-    textValue: A Title
-    imageValue: {fileID: 0}
-  - type: 1
-    textValue: The body for the title, which will be at least a paragraph long, with
-      multiple sentences and periods. This note will span at least 3 lines and will
-      be under the title I have added above.
-    imageValue: {fileID: 0}
+  subNote: []
